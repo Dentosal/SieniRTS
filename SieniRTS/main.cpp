@@ -23,8 +23,9 @@ int main()
     const float pi = 3.14159f;
     const int gameWidth = 1200;
     const int gameHeight = 800;
-    sf::Vector2f hahmoSize(10, 10);
-    sf::Vector2f rakennusSize(20, 20);
+    sf::Vector2f hahmoSize(5, 5);
+    sf::Vector2f rakennusSize(6, 6);
+    
     float ballRadius = 10.f;
 
     // Create the window of the application
@@ -44,17 +45,15 @@ int main()
         {    
         // error...
         }
-    sf::Texture texture2;
-    if (!texture2.loadFromFile("resources/DefaultSieni.png"))
-        {    
-        // error...
-        }
+
     
     
     sf::Sprite sieni;
     sieni.setScale(hahmoSize - sf::Vector2f(3, 3));
     sieni.setTexture(texture1);
     sieni.setPosition(100,100);
+    sieni.setColor(sf::Color(0, 255, 255));
+    
     
     // Create the left paddle
     /*
@@ -254,6 +253,7 @@ int main()
             // Draw the pause message
             //window.draw(pauseMessage);
             window.draw(sieni);
+
         }
 
         // Display things on screen
