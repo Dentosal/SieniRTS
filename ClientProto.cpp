@@ -2,28 +2,29 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <windows.h>
-
+#include <stdlib.h>
 #include "SFML/Graphics/Texture.hpp"
+#include <vector>
 
 // main method
 int main() {
-  
     
-  
     sf::ContextSettings contextSettings;  
-
+    
     contextSettings.depthBits = 32;
     // window name
-    sf::RenderWindow window(sf::VideoMode(640, 480), "SieniRTS", sf::Style::Default, contextSettings);
+    int height = 480;
+    int width = 640;
+    sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
-
+    
     // create clock
     sf::Clock clock;
 
-    // tehr��n si�ni
+    // tehrään siäni
     /*
      *
-                 ___..._
+              ___..._
          _,--'       "`-.
        ,'.  .            \
      ,/:. .     .       .'
@@ -40,15 +41,34 @@ int main() {
      * 
      */
 
-    sf::Texture texture1;
-    if (!texture1.loadFromFile("resources/DefaultSieni.png")) {    
+    sf::Texture sieniTexture;
+    if (!sieniTexture.loadFromFile("resources/DefaultSieni.png")) {    
         // error...
     }
+    sf::Texture hexaTexture;
+    if (!hexaTexture.loadFromFile("resources/hexagonTile3.png")) {    
+        // error...
+    }
+    
+    sf::Sprite hexa;
+    hexa.setTexture(hexaTexture);
+    std::vector<sf::Sprite> hexat;            
+    sf::Sprite uusiHexa(hexa);
+    
     sf::Sprite sieni;
-    sieni.setScale(hahmoSize - sf::Vector2f(3, 3));
-    sieni.setTexture(texture1);
-    sieni.setColor(sf::Color(0, 255, 255));
-
+    sf::Vector2f hahmoSize(5, 5);
+    sieni.setScale(hahmoSize - sf::Vector2f(2, 2));
+    sieni.setTexture(sieniTexture);
+    std::vector<sf::Sprite> sienet;
+    
+    for (int i = 0; i < width; i+=24){
+        for (int j = 2*(i%48)/3; j < height; j+=32){
+            uusiHexa.setPosition(i,j);
+            hexat.push_back(uusiHexa);
+        }
+    }
+    
+    
     // main window loop
     while (window.isOpen()) {
 
@@ -64,22 +84,29 @@ int main() {
                 window.close();
             }
 
-            // välilyönti tekee sienisiä asioita
+            // vÃ¤lilyÃ¶nti tekee sienisiÃ¤ asioita
             if (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)) || (event.type == sf::Event::Closed)) {
                 system("start chrome.exe http://sieni.es");
             }
 
             // mouse should do stuff
             if (event.type == sf::Event::MouseButtonPressed) { // is this the right event?
-
-                sieni.setPosition(event.x,event.y);
-                window.draw(sieni);
+                sf::Sprite uusiSieni(sieni);
+                uusiSieni.setPosition(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y);
+                sienet.push_back(uusiSieni);
             }
 
 
         }
         // draw everything on the sreen
-        window.display(); 
+        
+        for(int i=0; i<hexat.size(); ++i)
+            window.draw(hexat[i]);
+        for(int i=0; i<sienet.size(); ++i)
+            window.draw(sienet[i]);
+        window.display();
+        Sleep(200);
+        
     }
     // close the program when the loop breaks
     return EXIT_SUCCESS;
