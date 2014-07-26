@@ -1,7 +1,7 @@
 // includes SFML in the project
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <windows.h>
+#include <SFML/System.hpp>
 #include <stdlib.h>
 #include "SFML/Graphics/Texture.hpp"
 #include <vector>
@@ -18,8 +18,6 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
     
-    // create clock
-    sf::Clock clock;
 
     // tehrään siäni
     /*
@@ -46,7 +44,7 @@ int main() {
         // error...
     }
     sf::Texture hexaTexture;
-    if (!hexaTexture.loadFromFile("resources/hexagonTile3.png")) {    
+    if (!hexaTexture.loadFromFile("resources/hexagonTile4.png")) {    
         // error...
     }
     
@@ -61,14 +59,14 @@ int main() {
     sieni.setTexture(sieniTexture);
     std::vector<sf::Sprite> sienet;
     
-    for (int i = 0; i < width; i+=24){
-        for (int j = 2*(i%48)/3; j < height; j+=32){
-            uusiHexa.setPosition(i,j);
+    for (int i = 0; i+48 <= width; i+=48){
+        for (int j = 2*(i%96)/3; j+64 <= height; j+=64){
+            uusiHexa.setPosition(i+1,j);
             hexat.push_back(uusiHexa);
         }
     }
     
-    
+    window.clear();
     // main window loop
     while (window.isOpen()) {
 
@@ -77,22 +75,17 @@ int main() {
         while (window.pollEvent(event)) {
 
             // close the window
-            // if (event.type == sf::Event::Closed) {
-            // window.close();
-            // }(event.type == sf::Event::Closed)
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
-
-            // vÃ¤lilyÃ¶nti tekee sienisiÃ¤ asioita
-            if (((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)) || (event.type == sf::Event::Closed)) {
-                system("start chrome.exe http://sieni.es");
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
+                window.close();
             }
 
             // mouse should do stuff
             if (event.type == sf::Event::MouseButtonPressed) { // is this the right event?
                 sf::Sprite uusiSieni(sieni);
-                uusiSieni.setPosition(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y);
+                uusiSieni.setPosition((sf::Mouse::getPosition(window).x)-(sieni.getScale().x)*8,(sf::Mouse::getPosition(window).y)-(sieni.getScale().y*8));
                 sienet.push_back(uusiSieni);
             }
 
@@ -105,7 +98,7 @@ int main() {
         for(int i=0; i<sienet.size(); ++i)
             window.draw(sienet[i]);
         window.display();
-        Sleep(200);
+        sf::sleep(sf::milliseconds(200));
         
     }
     // close the program when the loop breaks
