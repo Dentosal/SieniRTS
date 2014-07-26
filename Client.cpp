@@ -1,9 +1,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-
+#include "net.h"
 
 int main()
 {
+    connect();
+
+
     // Request a 32-bits depth buffer when creating the window
     sf::ContextSettings contextSettings;
     contextSettings.depthBits = 32;
