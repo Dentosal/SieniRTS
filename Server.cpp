@@ -7,7 +7,15 @@
 
 #define PORT 8118
 
-
+struct Client
+{
+	sf::IpAddress ip;
+	sf::TcpSocket* socket;
+	Client(sf::IpAddress i, sf::TcpSocket* s) {
+		ip=i;
+		socket=s;
+	}
+};
 
 int main(int argc, char** argv) {
 	sf::IpAddress SelfIP = sf::IpAddress::getPublicAddress();	// get own ip
@@ -22,53 +30,72 @@ int main(int argc, char** argv) {
     	iss >> port;
     }
 
-	std::vector<sf::TcpSocket> sockets;	// create list of sockets
+	std::vector<Client> clients;	// create list of sockets
 	sf::TcpListener listener;			// create socket listener
 	sf::TcpSocket client;				// client "Api"
+	sf::SocketSelector ss;
 
-	int new_port 8100;
+	int new_port = (rand()%130)+1850;
+	sf::IpAddress cip;
 
-
-	while (true) {
 		if (listener.listen(PORT) != sf::Socket::Done){
 			std::cout << "Connection creation error\nErrno 1" << std::endl; 	// error
 			return 1;
 		}
+	while (true) {
+		std::cout << "Start loop" << std::endl;
 		if (listener.accept(client) != sf::Socket::Done)
 		{
 			std::cout << "Connection creation error\nErrno 2" << std::endl; 	// error
 			return 1;
 		}
-		std::cout << "Client connected from ip \"" << client.getRemoteAddress() << "\"" << std::endl;
+		cip=client.getRemoteAddress();
+		std::cout << "Client connected from ip \"" << cip << "\"" << std::endl;
 
-		while (true) {
-			if (listener.listen(PORT) != sf::Socket::Done) {
-				new_port-=1;
-				continue;
-			}
-			break;
-		}
+		new_port--;
+
+		std::cout << "Assigned port " << new_port << std::endl;
+
 		sf::Packet p;
 		p << new_port;
-		client.send(p);
-		if (listener.accept(client) != sf::Socket::Done)
-		{
-			std::cout << "Connection creation error: Client refused connection\nErrno 2" << std::endl; 	// error
+		sf::TcpListener tempListener;
+		if (tempListener.listen(new_port) != sf::Socket::Done){
+			std::cout << "Connection creation error\nErrno 3" << std::endl; 	// error
 			return 1;
 		}
-		
-
-
-		
-
-
+		client.send(p);
+		//listener.close();
+		client.disconnect();
+		sf::TcpSocket* newcli = new sf::TcpSocket();
+		if (tempListener.accept(*newcli) != sf::Socket::Done)
+		{
+			std::cout << "Connection creation error: Client refused connection\nErrno 4" << std::endl; 	// error
+			return 1;
+		}
+		ss.add(*newcli);
+		clients.push_back(Client(cip, newcli));
+		if (clients.size()==2) {
+			break;
+		}
 	}
-	std::string back;
+	std::cout << "Exit connection loop" << std::endl;
+	sf::Packet p;
+	int x=0;
+	int y=0;
 	while (true) {
 		// server main loop
-		send(client, msg);
-		back = recv(client);
-		//std::cout << back << std::endl;
+		if (ss.wait(sf::milliseconds(1000))) {
+			for (int i=0; i<clients.size();i++) {
+				if (ss.isReady(*clients.at(i).socket)) {
+					clients.at(i).socket->receive(p);
+					p >> x;
+					p >> y;
+					for (int j=0; j<clients.size();j++) {
+						clients.at(j).socket->send(p);
+					}
+				}
+			}
+		}
 	}
 	return EXIT_SUCCESS;
 }
