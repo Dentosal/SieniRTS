@@ -36,11 +36,14 @@ int connect() {
 		std::cout << "Connection ok" << std::endl;
 	}
 
+
+
+
 	std::string b=client_info;
 	while (true) {
 		b = recv(socket);
 		send(socket, b);
-		std::cout << b << std::endl;
+		//std::cout << b << std::endl;
 		break;
 	}
 	std::cout << "READY" << std::endl;

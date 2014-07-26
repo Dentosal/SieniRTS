@@ -3,22 +3,11 @@
 // include printing
 #include <IOStream>
 #include <String>
-
 #include <sstream>
 
 #define PORT 8118
 
-void send(sf::TcpSocket& socket, std::string msg) {
-	// send string to socket
-	msg+="\n";
-	socket.send(msg.c_str(), msg.size() + 1);
-}
-std::string recv(sf::TcpSocket& socket) {
-	char buffer[1024];				// buffer size 1024
-	std::size_t received = 0;		// size
-	socket.receive(buffer, sizeof(buffer), received);	// actually receive
-	return buffer;
-}
+
 
 int main(int argc, char** argv) {
 	sf::IpAddress SelfIP = sf::IpAddress::getPublicAddress();	// get own ip
@@ -35,9 +24,12 @@ int main(int argc, char** argv) {
     	iss >> port;
     }
 
-	std::vector<sf::IpAddress> IPs;	// create list of IPs
+	std::vector<sf::TcpSocket> sockets;	// create list of sockets
 	sf::TcpListener listener;		// create socket listener
 	sf::TcpSocket client;			// client "Api"
+	int left = 2;
+	int new_port;
+
 	while (true) {
 		if (listener.listen(PORT) != sf::Socket::Done){
 			std::cout << "Connection creation error\nErrno 1" << std::endl; 	// error
@@ -49,13 +41,26 @@ int main(int argc, char** argv) {
 			return 1;
 		}
 		std::cout << "Client connected from ip \"" << client.getRemoteAddress() << "\"" << std::endl;
-		break;
+
+		while {
+			new_port=8100-left;
+			if (listener.listen(PORT) != sf::Socket::Done){
+
+			}
+		}
+
+		left--;
+		if (left==0) {
+			break;
+		}
 	}
-	std::string b=server_info;
+	std::string msg=server_info;
+	std::string back;
 	while (true) {
-		send(client, b);
-		b = recv(client);
-		std::cout << b << std::endl;
+		// server main loop
+		send(client, msg);
+		back = recv(client);
+		//std::cout << back << std::endl;
 	}
 	return EXIT_SUCCESS;
 }

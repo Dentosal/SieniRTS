@@ -14,8 +14,6 @@ int main()
     // Create the main window
     sf::Window window(sf::VideoMode(640, 480), "SieniRTS", sf::Style::Default, contextSettings);
 
-    // Make it the active window for OpenGL calls
-    window.setActive();
 
 
 
@@ -38,9 +36,6 @@ int main()
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
                 window.close();
 
-            // Resize event: adjust the viewport
-            if (event.type == sf::Event::Resized)
-                glViewport(0, 0, event.size.width, event.size.height);
         }
 
         // Finally, display the rendered frame on screen
