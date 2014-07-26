@@ -1,10 +1,14 @@
 // includes SFML in the project
 #include <SFML/Window.hpp>
+#include <SFML/OpenGL.hpp>
 #include <windows.h>
 
 // main method
 int main() {
   
+  sf::ContextSettings contextSettings;  
+    
+  contextSettings.depthBits = 32;
   // window name
   sf::Window window(sf::VideoMode(640, 480), "SieniRTS", sf::Style::Default, contextSettings);
   window.setActive();
@@ -13,10 +17,10 @@ int main() {
   sf::Clock clock;
   
   // main window loop
-  while (window.isOpen) {
+  while (window.isOpen()) {
 
     // scan for events and react to them
-    sf:Event event;
+    sf::Event event;
     while (window.pollEvent(event)) {
 
       // close the window
@@ -27,20 +31,20 @@ int main() {
 	window.close();
       }
       
-      // v‰lilyˆnti tekee sienisi‰ asioita
+      // v√§lily√∂nti tekee sienisi√§ asioita
       if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
 	system("chrome.exe http://sieni.es");
       }
 
       // mouse should do stuff
-      if (event.type == sf::Event::MousePressed) { // is this the right event?
-	// TODO: do stuff
-      }
+//      if (event.type == sf::Event::MousePressed) { // is this the right event?
+//	// TODO: do stuff
+//      }
 	
 
     }
     // draw everything on the sreen
-    window.update; 
+    window.display(); 
   }
   // close the program when the loop breaks
   return EXIT_SUCCESS;
