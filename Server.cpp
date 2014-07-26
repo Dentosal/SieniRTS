@@ -15,8 +15,6 @@ int main(int argc, char** argv) {
 
 	std::cout << "IP: " << IP << std::endl; 	// print ip
 
-	std::string server_info = "0.1/Server";	// server info
-
 
     int port = PORT;
     if(argc==2) {
@@ -25,10 +23,11 @@ int main(int argc, char** argv) {
     }
 
 	std::vector<sf::TcpSocket> sockets;	// create list of sockets
-	sf::TcpListener listener;		// create socket listener
-	sf::TcpSocket client;			// client "Api"
-	int left = 2;
-	int new_port;
+	sf::TcpListener listener;			// create socket listener
+	sf::TcpSocket client;				// client "Api"
+
+	int new_port 8100;
+
 
 	while (true) {
 		if (listener.listen(PORT) != sf::Socket::Done){
@@ -37,24 +36,33 @@ int main(int argc, char** argv) {
 		}
 		if (listener.accept(client) != sf::Socket::Done)
 		{
-    		std::cout << "Connection creation error\nErrno 2" << std::endl; 	// error
+			std::cout << "Connection creation error\nErrno 2" << std::endl; 	// error
 			return 1;
 		}
 		std::cout << "Client connected from ip \"" << client.getRemoteAddress() << "\"" << std::endl;
 
-		while {
-			new_port=8100-left;
-			if (listener.listen(PORT) != sf::Socket::Done){
-
+		while (true) {
+			if (listener.listen(PORT) != sf::Socket::Done) {
+				new_port-=1;
+				continue;
 			}
-		}
-
-		left--;
-		if (left==0) {
 			break;
 		}
+		sf::Packet p;
+		p << new_port;
+		client.send(p);
+		if (listener.accept(client) != sf::Socket::Done)
+		{
+			std::cout << "Connection creation error: Client refused connection\nErrno 2" << std::endl; 	// error
+			return 1;
+		}
+		
+
+
+		
+
+
 	}
-	std::string msg=server_info;
 	std::string back;
 	while (true) {
 		// server main loop
