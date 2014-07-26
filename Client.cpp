@@ -14,9 +14,7 @@ int main()
     // Make it the active window for OpenGL calls
     window.setActive();
 
-    // Set the color and depth clear values
-    glClearDepth(1.f);
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+
 
 
     // Create a clock for measuring the time elapsed
