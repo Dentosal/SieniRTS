@@ -7,7 +7,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
-
+#include <SFML/Graphics/Sprite.hpp>
 
 ////////////////////////////////////////////////////////////
 /// Entry point of application
@@ -23,7 +23,9 @@ int main()
     const float pi = 3.14159f;
     const int gameWidth = 1200;
     const int gameHeight = 800;
-    sf::Vector2f paddleSize(25, 25);
+    sf::Vector2f hahmoSize(5, 5);
+    sf::Vector2f rakennusSize(6, 6);
+    
     float ballRadius = 10.f;
 
     // Create the window of the application
@@ -35,7 +37,24 @@ int main()
     if (!ballSoundBuffer.loadFromFile("resources/ball.wav"))
         return EXIT_FAILURE;
     sf::Sound ballSound(ballSoundBuffer);
+    
+    //sf::Sprite::getTexture("resources/DefaultSieni.png")
+    
+    sf::Texture texture1;
+    if (!texture1.loadFromFile("resources/DefaultSieni.png"))
+        {    
+        // error...
+        }
 
+    
+    
+    sf::Sprite sieni;
+    sieni.setScale(hahmoSize - sf::Vector2f(3, 3));
+    sieni.setTexture(texture1);
+    sieni.setPosition(100,100);
+    sieni.setColor(sf::Color(0, 255, 255));
+    
+    
     // Create the left paddle
     /*
     sf::RectangleShape leftPaddle;
@@ -81,7 +100,7 @@ int main()
     float rightPaddleSpeed  = 0.f;
     const float ballSpeed   = 400.f;
     float ballAngle         = 0.f; // to be changed later
-     */ 
+     */
     sf::Clock clock;
     bool isPlaying = false;
     while (window.isOpen())
@@ -105,7 +124,7 @@ int main()
                 {
                     // (re)start the game
                     isPlaying = true;
-                    clock.restart();
+                    //clock.restart();
 
                     // Reset the position of the paddles and ball
                     //leftPaddle.setPosition(10 + paddleSize.x / 2, gameHeight / 2);
@@ -227,11 +246,14 @@ int main()
             //window.draw(leftPaddle);
             //window.draw(rightPaddle);
             //window.draw(ball);
+            
         }
         else
         {
             // Draw the pause message
             //window.draw(pauseMessage);
+            window.draw(sieni);
+
         }
 
         // Display things on screen
