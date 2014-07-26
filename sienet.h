@@ -30,30 +30,8 @@ class Sieni {
     void setType(int);
     int getType();
 };
-class House
-    {
-    int X, Y, targetX, targetY, Health, State, Team, Type;
-public:
-    void setPos(int,int);
-    int getX();
-    int getY();
-    
-    void setTarget(int,int);
-    int getTargetX();
-    int getTargetY();
-    
-    void heal(int);
-    int getHealth();
-    
-    void setState(int);
-    int getState();
-    
-    void setTeam(int);
-    int getTeam();
-    
-    void setType(int);
-    int getType();
-    };
+
+
 
 void Sieni::setPos(int x, int y)
     {
@@ -114,6 +92,34 @@ int Sieni::getType()
     return Type;
     }
 
+class House
+    {
+    int X, Y, targetX, targetY, sizeX, sizeY, Health, State, Team, Type;
+public:
+    void setPos(int,int);
+    int getX();
+    int getY();
+    
+    void setTarget(int,int);
+    int getTargetX();
+    int getTargetY();
+    
+    void setSize(int,int);
+    int getSizeX();
+    int getSizeY();
+    
+    void heal(int);
+    int getHealth();
+    
+    void setState(int);
+    int getState();
+    
+    void setTeam(int);
+    int getTeam();
+    
+    void setType(int);
+    int getType();
+    };
 
 void House::setPos(int x, int y)
     {
@@ -140,6 +146,19 @@ int House::getTargetX()
 int House::getTargetY()
     {
     return Y;
+    }
+void House::setPos(int sX, int sY)
+    {
+    sizeX = sX;
+    sizeY = sX;
+    }
+int House::getSizeX()
+    {
+    return sizeX;
+    }
+int House::getSizeY()
+    {
+    return sizeY;
     }
 void House::heal(int hp)
     {
@@ -173,6 +192,8 @@ int House::getType()
     {
     return Type;
     }
+
+
 /*
 void Sieni::set_values (int x, int y, int tx, int ty, int hp, int state, int team) {
   X = x;
