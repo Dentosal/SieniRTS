@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 	int y=0; 
 	while (true) {
 		// server main loop
-		if (ss.wait(sf::milliseconds(1000))) {
+		if (ss.wait(sf::milliseconds(100))) {
 			for (int i=0; i<clients.size();i++) {
 				if (ss.isReady(*clients.at(i).socket)) {
 					clients.at(i).socket->receive(p);

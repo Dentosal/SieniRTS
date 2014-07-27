@@ -91,8 +91,8 @@ int main() {
             // mouse should do stuff
             if (event.type == sf::Event::MouseButtonPressed) { // is this the right event?
                 sf::Packet p;
-                int x = sf::Mouse::getPosition(window).x;
-                int y = sf::Mouse::getPosition(window).y;
+                int x = sf::Mouse::getPosition(window).x-sieni.getScale().x*8;
+                int y = sf::Mouse::getPosition(window).y-sieni.getScale().y*8;
                 p << x << y;
                 socket->send(p);
             }
@@ -106,7 +106,7 @@ int main() {
         for(int i=0; i<sienet.size(); ++i)
             window.draw(sienet[i]);
         window.display();
-        sf::sleep(sf::milliseconds(200));
+        sf::sleep(sf::milliseconds(100));
         sf::Packet p;
         sf::Socket::Status foo = socket->receive(p);
         if (foo == sf::Socket::Done){
