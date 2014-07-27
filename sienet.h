@@ -38,8 +38,8 @@ class Sieni {
 void setPacket(sf::Packet) {
 
 }
-sf::Packet getPacket(int) {
-
+sf::Packet getPacket() {
+    sf::Packet p;
 }
 
 void Sieni::setPos(int x, int y) {
