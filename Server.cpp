@@ -20,8 +20,7 @@ struct Client
 
 void my_handler(int s){
 	printf("Caught signal %d\n",s);
-	exit(1); 
-
+	exit(1);
 }
 
 
@@ -42,6 +41,8 @@ int main(int argc, char** argv) {
 	sf::TcpListener listener;			// create socket listener
 	sf::TcpSocket client;				// client "Api"
 	sf::SocketSelector ss;
+
+
 
 	int new_port = (rand()%130)+8050;
 	sf::IpAddress cip;
@@ -82,11 +83,12 @@ int main(int argc, char** argv) {
 		}
 		ss.add(*newcli);
 		clients.push_back(Client(cip, newcli));
-		if (clients.size()==4) {
+		if (clients.size()==2) {
 			break;
 		}
 	}
 	std::cout << "Exit connection loop" << std::endl;
+	//signal (SIGINT,my_handler);
 	sf::Packet p;
 	int x=0;
 	int y=0; 
@@ -96,7 +98,6 @@ int main(int argc, char** argv) {
 			for (int i=0; i<clients.size();i++) {
 				if (ss.isReady(*clients.at(i).socket)) {
 					clients.at(i).socket->receive(p);
-					std::cout << "NEW SIENI" << std::endl;
 					for (int j=0; j<clients.size();j++) {
 						clients.at(j).socket->send(p);
 					}
