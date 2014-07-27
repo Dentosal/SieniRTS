@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <SFML/network>
 
 
 using namespace std;
@@ -30,74 +30,77 @@ class Sieni {
 	
 	void setType(int);
 	int getType();
+
+    void setPacket(int);
+    sf:Packet getPacket(int);
 };
 
+void setPacket(int) {
 
+}
+sf:Packet getPacket(int) {
 
-void Sieni::setPos(int x, int y)
-	{
+}
+
+void Sieni::setPos(int x, int y) {
 	X = x;
 	Y = y;
-	}
-int Sieni::getX()
-	{
+}
+int Sieni::getX() {
 	return X;
-	}
-int Sieni::getY()
-	{
+}
+int Sieni::getY() {
 	return Y;
-	}
-void Sieni::setTarget(int tx, int ty)
-	{
+}
+void Sieni::setTarget(int tx, int ty) {
 	targetX = tx;
 	targetY = ty;
-	}
-int Sieni::getTargetX()
-	{
+}
+int Sieni::getTargetX() {
 	return targetX;
-	}
+}
 int Sieni::getTargetY()
-	{
+{
 	return Y;
 	}
 void Sieni::setHealth(int hp) {
 	Health = hp;
 }
 void Sieni::heal(int hp)
-	{
+{
 	Health += hp;
 	}
 int Sieni::getHealth()
-	{
+{
 	return Health;
 	}
 void Sieni::setState(int state)
-	{
+{
 	State = state;
 	}
 int Sieni::getState()
-	{
+{
 	return State;
 	}
 void Sieni::setTeam(int team)
-	{
+{
 	Team = team;
 	}
 int Sieni::getTeam()
-	{
+{
 	return Team;
 	}
 void Sieni::setType(int type)
-	{
+{
 	Type = type;
 	}
 int Sieni::getType()
-	{
+{
 	return Type;
 	}
 
 class House
-	{
+{
 	int X, Y, targetX, targetY, sizeX, sizeY, Health, State, Team, Type;
 public:
 	void setPos(int,int);
@@ -126,76 +129,65 @@ public:
 	};
 
 void House::setPos(int x, int y)
-	{
+{
 	X = x;
 	Y = y;
 	}
 int House::getX()
-	{
+{
 	return X;
 	}
 int House::getY()
-	{
+{
 	return Y;
 	}
 void House::setTarget(int tx, int ty)
-	{
+{
 	targetX = tx;
 	targetY = ty;
 	}
 int House::getTargetX()
-	{
+{
 	return targetX;
 	}
 int House::getTargetY()
-	{
+{
 	return Y;
 	}
-void House::setPos(int sX, int sY)
-	{
+void House::setPos(int sX, int sY) {
 	sizeX = sX;
 	sizeY = sX;
-	}
-int House::getSizeX()
-	{
+}
+int House::getSizeX() {
 	return sizeX;
-	}
-int House::getSizeY()
-	{
+}
+int House::getSizeY() {
 	return sizeY;
-	}
-void House::heal(int hp)
-	{
+}
+void House::heal(int hp) {
 	Health += hp;
-	}
-int House::getHealth()
-	{
+}
+int House::getHealth() {
 	return Health;
-	}
-void House::setState(int state)
-	{
+}
+void House::setState(int state) {
 	State = state;
-	}
-int House::getState()
-	{
+}
+int House::getState() {
 	return State;
-	}
-void House::setTeam(int team)
-	{
+}
+void House::setTeam(int team) {
 	Team = team;
-	}
-int House::getTeam()
-	{
+}
+int House::getTeam() {
 	return Team;
-	}
-void House::setType(int type)
-	{
+}
+void House::setType(int type) {
 	Type = type;
-	}
-int House::getType()
-	{
+}
+int House::getType() {
 	return Type;
-	}
+}
 
 
 /*
