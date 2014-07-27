@@ -53,14 +53,13 @@ int main() {
         // error...
     }
     
+    //load sprites
     sf::Sprite hexa;
     hexa.setTexture(hexaTexture);
     std::vector<sf::Sprite> hexat;            
     sf::Sprite uusiHexa(hexa);
     
     sf::Sprite sieni;
-    sf::Vector2f hahmoSize(5, 5);
-    sieni.setScale(hahmoSize - sf::Vector2f(2, 2));
     sieni.setTexture(sieniTexture);
     std::vector<sf::Sprite> sienet;
     sf::Sprite uusiSieni(sieni);
