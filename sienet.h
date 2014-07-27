@@ -31,13 +31,14 @@ class Sieni {
 	void setType(int);
 	int getType();
 
-    void setPacket(sf:Packet);
-    sf:Packet getPacket();
+    void setPacket(sf::Packet);
+    sf::Packet getPacket();
 };
 
-void setPacket(int) {
+void setPacket(sf::Packet) {
+
 }
-sf:Packet getPacket(int) {
+sf::Packet getPacket(int) {
 
 }
 
