@@ -4,8 +4,8 @@
 #include <IOStream>
 #include <String>
 #include <sstream>
-#include <signal.h>
 #define PORT 8118
+
 
 struct Client
 {
@@ -88,7 +88,6 @@ int main(int argc, char** argv) {
 		}
 	}
 	std::cout << "Exit connection loop" << std::endl;
-	//signal (SIGINT,my_handler);
 	sf::Packet p;
 	int x=0;
 	int y=0; 
