@@ -49,7 +49,7 @@ int main() {
         // error...
     }
     sf::Texture hexaTexture;
-    if (!hexaTexture.loadFromFile("resources/hexagonTile3.png")) {    
+    if (!hexaTexture.loadFromFile("resources/hexagonTile4.png")) {    
         // error...
     }
     
@@ -63,14 +63,14 @@ int main() {
     sieni.setScale(hahmoSize - sf::Vector2f(2, 2));
     sieni.setTexture(sieniTexture);
     std::vector<sf::Sprite> sienet;
+    sf::Sprite uusiSieni(sieni);
     
-    for (int i = 0; i < width; i+=24){
-        for (int j = 2*(i%48)/3; j < height; j+=32){
-            uusiHexa.setPosition(i,j);
+    for (int i = 0; i+48 <= width; i+=48){
+        for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
+            uusiHexa.setPosition(i+1,j);
             hexat.push_back(uusiHexa);
         }
     }
-    
     
     // main window loop
     while (window.isOpen()) {
@@ -112,7 +112,6 @@ int main() {
         if (foo == sf::Socket::Done){
             int x,y;
             p >> x >> y;
-                sf::Sprite uusiSieni(sieni);
                 uusiSieni.setPosition(x,y);
                 sienet.push_back(uusiSieni);
             
