@@ -81,15 +81,14 @@ int main(int argc, char** argv) {
 	std::cout << "Exit connection loop" << std::endl;
 	sf::Packet p;
 	int x=0;
-	int y=0;
+	int y=0; 
 	while (true) {
 		// server main loop
 		if (ss.wait(sf::milliseconds(100))) {
 			for (int i=0; i<clients.size();i++) {
 				if (ss.isReady(*clients.at(i).socket)) {
 					clients.at(i).socket->receive(p);
-					p >> x;
-					p >> y;
+					std::cout << "NEW SIENI" << std::endl;
 					for (int j=0; j<clients.size();j++) {
 						clients.at(j).socket->send(p);
 					}
