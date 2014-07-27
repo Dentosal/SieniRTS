@@ -18,6 +18,7 @@ class Sieni {
     int getTargetX();
     int getTargetY();
     
+    void setHealth();
     void heal(int);
     int getHealth();
     
@@ -59,6 +60,9 @@ int Sieni::getTargetY()
     {
     return Y;
     }
+void Sieni::setHealth(int hp) {
+    Health = hp;
+}
 void Sieni::heal(int hp)
     {
     Health += hp;
