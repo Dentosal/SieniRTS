@@ -112,13 +112,14 @@ int main() {
         if (foo == sf::Socket::Done){
             int x,y;
             p >> x >> y;
-                uusiSieni.setPosition(x,y);
-                sienet.push_back(uusiSieni);
+            uusiSieni.setPosition(x,y);
+            sienet.push_back(uusiSieni);
             
         }
         
     }
     // close the program when the loop breaks
+    socket->disconnect();
     return EXIT_SUCCESS;
 }
 
