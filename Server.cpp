@@ -4,7 +4,7 @@
 #include <IOStream>
 #include <String>
 #include <sstream>
-
+#include <signal.h>
 #define PORT 8118
 
 struct Client
@@ -16,6 +16,14 @@ struct Client
 		socket=s;
 	}
 };
+
+
+void my_handler(int s){
+	printf("Caught signal %d\n",s);
+	exit(1); 
+
+}
+
 
 int main(int argc, char** argv) {
 	sf::IpAddress SelfIP = sf::IpAddress::getPublicAddress();	// get own ip
@@ -84,7 +92,7 @@ int main(int argc, char** argv) {
 	int y=0; 
 	while (true) {
 		// server main loop
-		if (ss.wait(sf::milliseconds(100))) {
+		if (ss.wait(sf::milliseconds(1000))) {
 			for (int i=0; i<clients.size();i++) {
 				if (ss.isReady(*clients.at(i).socket)) {
 					clients.at(i).socket->receive(p);
