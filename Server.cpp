@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 
 
 
-	int new_port = (rand()%130)+8050;
+	int new_port = (rand()%90)+8105;
 	sf::IpAddress cip;
 
 		if (listener.listen(PORT) != sf::Socket::Done){

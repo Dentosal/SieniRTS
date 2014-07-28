@@ -1,6 +1,29 @@
 #include <iostream>
 #include <SFML/network>
 
+//               ________________
+//          ____/ (  (    )   )  \___
+//         /( (  (  )   _    ))  )   )\
+//       ((     (   )(    )  )   (   )  )
+//     ((/  ( _(   )   (   _) ) (  () )  )
+//    ( (  ( (_)   ((    (   )  .((_ ) .  )_
+//   ( (  )    (      (  )    )   ) . ) (   )
+//  (  (   (  (   ) (  _  ( _) ).  ) . ) ) ( )
+//  ( (  (   ) (  )   (  ))     ) _)(   )  )  )
+// ( (  ( \ ) (    (_  ( ) ( )  )   ) )  )) ( )
+//  (  (   (  (   (_ ( ) ( _    )  ) (  )  )   )
+// ( (  ( (  (  )     (_  )  ) )  _)   ) _( ( )
+//  ((  (   )(    (     _    )   _) _(_ (  (_ )
+//   (_((__(_(__(( ( ( |  ) ) ) )_))__))_)___)
+//   ((__)        \\||lll|l||///          \_))
+//            (   /(/ (  )  ) )\   )
+//          (    ( ( ( | | ) ) )\   )
+//           (   /(| / ( )) ) ) )) )
+//         (     ( ((((_(|)_)))))     )
+//          (      ||\(|(|)|/||     )
+//        (        |(||(||)||||        )
+//          (     //|/l|||)|\\ \     )
+//        (/ / //  /|//||||\\  \ \  \ _)
 
 using namespace std;
 
@@ -18,7 +41,7 @@ class Sieni {
 	int getTargetX();
 	int getTargetY();
 	
-	void setHealth();
+	void setHealth(int);
 	void heal(int);
 	int getHealth();
 	
@@ -36,10 +59,14 @@ class Sieni {
 };
 
 void setPacket(sf::Packet) {
-
+    int trash;
+    p >> trash;
+    p >> X >> Y >> targetX >> targetY >> Health >> State >> Team >> Team;
 }
 sf::Packet getPacket() {
     sf::Packet p;
+    p << 10 << X << Y << targetX << targetY << Health << State << Team << Team;
+    return p;
 }
 
 void Sieni::setPos(int x, int y) {
