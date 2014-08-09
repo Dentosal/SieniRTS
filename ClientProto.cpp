@@ -18,8 +18,8 @@ int main() {
     
     contextSettings.depthBits = 32;
     // window name
-    int height = 480;
-    int width = 640;
+    int height = 720;
+    int width = 960;
     sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
     
@@ -66,11 +66,11 @@ int main() {
     sieniSpritet.push_back(uusiSieniSprite);
     
     std::vector<Sieni> sienet;
-    sienet.push_back(Sieni(300,200,300,200,0,0,0,0,0,0,10));
+    sienet.push_back(Sieni(300.0, 200.0, 300.0, 200.0, 0, 0, 0, 0, 0.0, 0.0, 8.0));
     Sieni uusiSieni;
     
-    for (int i = 0; i+48 <= width; i+=48){
-        for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
+    for (int i = 0; i+24 <= width; i+=48){
+        for (int j = 2*(i%96)/3; j+32 <= height; j+=64){ // shifts every other line 32 px down
             uusiHexa.setPosition(i+1,j);
             hexat.push_back(uusiHexa);
         }
@@ -109,26 +109,23 @@ int main() {
                     ,'  ; ~~--'~  
                     ;  ;      
                 _\\;_\\//_
-                ==------===
-             */
-            
-            
+                ==------===    */
             if (event.type == sf::Event::MouseButtonPressed) {
-                int mX = (sf::Mouse::getPosition(window).x)-(sieniSprite.getScale().x)*8;
-                int mY = (sf::Mouse::getPosition(window).y)-(sieniSprite.getScale().y*8);
+                double mX = (sf::Mouse::getPosition(window).x)-(sieniSprite.getScale().x*8);
+                double mY = (sf::Mouse::getPosition(window).y)-(sieniSprite.getScale().y*8);
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Packet p;
                     uusiSieni.setPacket(p << 10         // purkkaa tulossa
-                            << mX << mY // x ja y
-                            << mX << mY // tx ja ty
-                            << 0 << 0 << 0 << 0 // hp, state, team, type
-                            << 0 << 0 << 10     // dx, dy, speed
+                            << mX << mY             // x ja y
+                            << mX << mY             // tx ja ty
+                            << 0 << 0 << 0 << 0     // hp, state, team, type
+                            << 0.0 << 0.0 << 8.0    // dx, dy, speed
                             );
                     sienet.push_back(uusiSieni);
                     sieniSpritet.push_back(uusiSieniSprite);
                 } 
                 else {
-                    for(int i=0; i<sienet.size(); ++i){
+                    for (int i=0; i<sienet.size(); i++){
                         sienet[i].setTarget(mX,mY);
                         sienet[i].pathFind();
                     }
@@ -137,7 +134,7 @@ int main() {
 
 
         }
-        // draw everything on the sreen
+        // draw everything on the screen
         
         window.clear();
         for(int i=0; i<hexat.size(); ++i)
@@ -145,10 +142,11 @@ int main() {
         
         for(int i=0; i<sienet.size(); ++i) {
             sienet[i].setPos(
-                    sienet[i].getX()+sienet[i].getdx(),
-                    sienet[i].getY()+sienet[i].getdy());
-            sienet[i].areWeThereYet();
+                    sienet[i].getX() + sienet[i].getdx(),
+                    sienet[i].getY() + sienet[i].getdy());
             sieniSpritet[i].setPosition(sienet[i].getX(), sienet[i].getY());
+
+            sienet[i].areWeThereYet();
             window.draw(sieniSpritet[i]);
         }
         

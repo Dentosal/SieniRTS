@@ -29,7 +29,8 @@
 using namespace std;
 
 class Sieni {
-	int X, Y, targetX, targetY, Health, State, Team, Type, dX, dY, speed;
+	int Health, State, Team, Type;
+        double X, Y, targetX, targetY, dX, dY, speed;
         
     public:
         Sieni();
@@ -37,13 +38,13 @@ class Sieni {
 	//void set_values (int,int,int,int,int,int,int,int);
 	int area () {return X;}
 	
-	void setPos(int,int);
-	int getX();
-	int getY();
+	void setPos(double,double);
+	double getX();
+	double getY();
 	
-	void setTarget(int,int);
-	int getTargetX();
-	int getTargetY();
+	void setTarget(double,double);
+	double getTargetX();
+	double getTargetY();
 	
 	void setHealth(int);
 	void heal(int);
@@ -58,8 +59,8 @@ class Sieni {
 	void setType(int);
 	int getType();
         
-	int getdx();
-	int getdy();
+	double getdx();
+	double getdy();
         
         void pathFind();
         
@@ -96,24 +97,24 @@ Sieni::Sieni(int x, int y, int tx, int ty, int hp, int state, int team, int type
     dY = dy;
 }
 
-void Sieni::setPos(int x, int y) {
+void Sieni::setPos(double x, double y) {
     X = x;
     Y = y;
 }
-int Sieni::getX() {
+double Sieni::getX() {
     return X;
 }
-int Sieni::getY() {
+double Sieni::getY() {
     return Y;
 }
-void Sieni::setTarget(int tx, int ty) {
+void Sieni::setTarget(double tx, double ty) {
     targetX = tx;
     targetY = ty;
 }
-int Sieni::getTargetX() {
+double Sieni::getTargetX() {
     return targetX;
 }
-int Sieni::getTargetY()
+double Sieni::getTargetY()
 {
     return Y;
 }
@@ -152,11 +153,11 @@ int Sieni::getType()
 {
     return Type;
 }
-int Sieni::getdx()
+double Sieni::getdx()
 {
     return dX;
 }
-int Sieni::getdy()
+double Sieni::getdy()
 {
     return dY;
 }
@@ -164,13 +165,13 @@ int Sieni::getdy()
 
 void Sieni::pathFind()
 {
-    double kulma = atan2(1.0*(targetY - Y), 1.0*(targetX - X));
+    double kulma = atan2(targetY - Y, targetX - X);
     dY = sin(kulma)*speed;
     dX = cos(kulma)*speed;
 }
 
 void Sieni::areWeThereYet() {
-    if (abs(X-targetX) < speed && abs(Y-targetY) < speed) {
+    if (abs(X-targetX) < speed/2 && abs(Y-targetY) < speed/2) {
         dX = dY = 0;
     }
 }
