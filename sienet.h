@@ -32,19 +32,20 @@ using namespace std;
 
 class Sieni {
 	int Health, State, Team, Type;
-        double X, Y, targetX, targetY, dX, dY, speed;
+        double targetX, targetY, dX, dY, speed;
         sf::Sprite sprite;
         
     public:
         Sieni(sf::Texture tex);
         Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed);
 	//void set_values (int,int,int,int,int,int,int,int);
-	int area () {return X;}
 	
 	void setPos(double,double);
 	double getX();
 	double getY();
 	
+    bool doesCollide(Sieni);
+
 	void setTarget(double,double);
 	double getTargetX();
 	double getTargetY();
@@ -81,11 +82,13 @@ class Sieni {
 void Sieni::setPacket(sf::Packet& p) {
     int trash;
     p >> trash;
+    int X, Y;
     p >> X >> Y >> targetX >> targetY >> Health >> State >> Team >> Type >> dX >> dY >> speed;
+    setPos(X, Y);
 }
 sf::Packet Sieni::getPacket() {
     sf::Packet p;
-    p << 10 << X << Y << targetX << targetY << Health << State << Team << Type << dX << dY << speed;
+    p << 10 << getX() << getY() << targetX << targetY << Health << State << Team << Type << dX << dY << speed;
     return p;
 }
 Sieni::Sieni(sf::Texture tex) {
@@ -94,8 +97,7 @@ Sieni::Sieni(sf::Texture tex) {
 Sieni::Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed)
 :speed(speed){
     sprite.setTexture(tex);
-    X = x;
-    Y = y;
+    setPos(x, y);
     targetX = tx;
     targetY = ty;
     Health = hp;
@@ -107,14 +109,13 @@ Sieni::Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, 
 }
 
 void Sieni::setPos(double x, double y) {
-    X = x;
-    Y = y;
+    sprite.setPosition(x, y);
 }
 double Sieni::getX() {
-    return X;
+    return sprite.getPosition().x;
 }
 double Sieni::getY() {
-    return Y;
+     return sprite.getPosition().y;
 }
 void Sieni::setTarget(double tx, double ty) {
     targetX = tx;
@@ -125,7 +126,7 @@ double Sieni::getTargetX() {
 }
 double Sieni::getTargetY()
 {
-    return Y;
+    return targetY;
 }
 void Sieni::setHealth(int hp) {
     Health = hp;
@@ -170,17 +171,21 @@ double Sieni::getdy()
 {
     return dY;
 }
+bool Sieni::doesCollide(Sieni s) {
+    sf::Sprite ss = s.getSprite();
+    return false;
+}
 
 
 void Sieni::pathFind()
 {
-    double kulma = atan2(targetY - Y, targetX - X);
+    double kulma = atan2(targetY - getY(), targetX - getY());
     dY = sin(kulma)*speed;
     dX = cos(kulma)*speed;
 }
 
 void Sieni::areWeThereYet() {
-    if (abs(X-targetX) < speed/2 && abs(Y-targetY) < speed/2) {
+    if (abs(getX()-targetX) < speed/2 && abs(getY()-targetY) < speed/2) {
         dX = dY = 0;
     }
 }
