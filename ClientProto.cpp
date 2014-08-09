@@ -23,17 +23,14 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
     
-    std::vector<sf::Texture> sieniTyyppiTexture(66);
-    sieniTyyppiTexture[0].loadFromFile("resources/DefaultSieni.png");    
-    sieniTyyppiTexture[64].loadFromFile("resources/Rakennus1.png");    
-    sieniTyyppiTexture[65].loadFromFile("resources/Rakennus2.png");  
     
     sf::Texture sieniTex;
     sf::Texture houseTex;
     
     sieniTex.loadFromFile("resources/DefaultSieni.png");
     houseTex.loadFromFile("resources/Rakennus1.png");
-    // tehrÃ¤Ã¤n siÃ¤ni
+    
+    // tehrään siäni
     /*
      *
               ___..._
@@ -103,7 +100,35 @@ int main() {
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }            
-            
+            /*
+              Välilyännistä tehrään talo
+                       .
+                ('
+                '|
+                |'
+               [::]
+               [::]   _......_
+               [::].-'      _.-`.
+               [:.'    .-. '-._.-`.
+               [/ /\   |  \        `-..
+               / / |   `-.'      .-.   `-.
+              /  `-'            (   `.    `.
+             |           /\      `-._/      \
+             '    .'\   /  `.           _.-'|
+            /    /  /   \_.-'        _.':;:/
+          .'     \_/             _.-':;_.-'
+         /   .-.             _.-' \;.-'
+        /   (   \       _..-'     |
+        \    `._/  _..-'    .--.  |
+         `-.....-'/  _ _  .'    '.|
+                  | |_|_| |      | \  (o)
+             (o)  | |_|_| |      | | (\'/)
+            (\'/)/  ''''' |     o|  \;:;
+             :;  |        |      |  |/)
+         LGB  ;: `-.._    /__..--'\.' ;:
+                  :;  `--' :;   :;  
+             
+             */
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)) {
 
                 double mX = (sf::Mouse::getPosition(window).x);
