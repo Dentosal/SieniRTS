@@ -33,10 +33,11 @@ using namespace std;
 class Sieni {
 	int Health, State, Team, Type;
         double X, Y, targetX, targetY, dX, dY, speed;
+        sf::Sprite sprite;
         
     public:
-        Sieni();
-        Sieni(int x, int y, int tx, int ty, int hp, int state, int team, int type, int dx, int dy, int speed);
+        Sieni(sf::Texture tex);
+        Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed);
 	//void set_values (int,int,int,int,int,int,int,int);
 	int area () {return X;}
 	
@@ -70,6 +71,11 @@ class Sieni {
 
         void setPacket(sf::Packet&);
         sf::Packet getPacket();
+        
+        sf::Sprite& getSprite() {
+            return sprite;
+        }
+
 };
 
 void Sieni::setPacket(sf::Packet& p) {
@@ -82,11 +88,12 @@ sf::Packet Sieni::getPacket() {
     p << 10 << X << Y << targetX << targetY << Health << State << Team << Type << dX << dY << speed;
     return p;
 }
-Sieni::Sieni() {
-    
+Sieni::Sieni(sf::Texture tex) {
+    sprite.setTexture(tex);
 }
-Sieni::Sieni(int x, int y, int tx, int ty, int hp, int state, int team, int type, int dx, int dy, int speed)
+Sieni::Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed)
 :speed(speed){
+    sprite.setTexture(tex);
     X = x;
     Y = y;
     targetX = tx;
@@ -185,7 +192,7 @@ void Sieni::areWeThereYet() {
 
 
 
-//=======================================================================
+//===============================================================================
 
 
 
@@ -222,6 +229,10 @@ class House
         
         void setPacket(sf::Packet&);
         sf::Packet getPacket();
+        
+        sf::Sprite& getSprite() {
+            return sprite;
+        }
 };
 
 
