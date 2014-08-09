@@ -64,6 +64,7 @@ class Sieni {
 	int getType();
 
     void stop();
+    void KnockBack(Sieni);
         
 	double getdx();
 	double getdy();
@@ -181,8 +182,11 @@ double Sieni::getdy()
     return dY;
 }
 bool Sieni::doesCollide(Sieni s) {
-    sf::Sprite ss = s.getSprite();
-    return false;
+    sf::FloatRect other = s.getSprite().getGlobalBounds();
+    sf::FloatRect self = sprite.getGlobalBounds();
+    return self.intersects(other);
+}
+void KnockBack(Sieni s) {
 }
 
 void Sieni::pathFind()
