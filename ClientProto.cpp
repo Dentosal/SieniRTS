@@ -138,22 +138,23 @@ int main() {
                 talot.push_back(House(&houseTex, taloX, taloY, 0, 0, 0, 0));
                 talot.back().setPos(taloX, taloY);
             }            
-            /*
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Delete)) {
+            
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LControl)) {
 
                 double mX = (sf::Mouse::getPosition(window).x);
                 double taloX = (mX - ((int)mX % 48));
                 double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
                 double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
-                
-                sf::Packet p;
-                    uusiTalo.setPacket(p << 10         
-                            << taloX << taloY       // x ja y
-                            << 0 << 0 << 0 << 0     // hp, state, team, type
-                            );
-                    uusiTalo.setPos(taloX, taloY);
-                    talot.push_back(uusiTalo);
-            }*/
+                for (int i = 0; i<talot.size(); ++i){
+                    if (talot[i].getX()==taloX && talot[i].getY()==taloY){
+                        talot.erase(talot.begin()+i);
+                        for (int jtn=0; jtn<5; ++jtn) {
+                            sienet.push_back(Sieni(&sieniTex, taloX+((rand()&255)/255.0)*48, taloY+((rand()&255)/255.0)*64, ((rand()&255)/255.0)*width, ((rand()&255)/255.0)*height, 0, 0, 0, 0, 0.0, 0.0, 8.0));
+                            sienet.back().pathFind();
+                        }
+                    }
+                }
+            }
             
             // klikkauksesta tehrään siäni
             /*

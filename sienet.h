@@ -208,7 +208,6 @@ void Sieni::areWeThereYet() {
 class House
 {
 	int Health, State, Team, Type;
-        double X, Y;
         sf::Sprite sprite;
     public:
         House(sf::Texture* tex);
@@ -247,8 +246,7 @@ House::House(sf::Texture* tex){
 House::House(sf::Texture* tex, double x, double y, int hp, int state, int team, int type){
     sprite.setTexture(*tex);
     sprite.setScale(4,4);
-    X = x;
-    Y = y;
+    setPos(x,y);
     Health = hp;
     State = state;
     Team = team;
@@ -258,25 +256,26 @@ House::House(sf::Texture* tex, double x, double y, int hp, int state, int team, 
 void House::setPacket(sf::Packet& p) {
     int trash;
     p >> trash;
+    int X, Y;
     p >> X >> Y >> Health >> State >> Team >> Type;
+    setPos(X,Y);
 }
 sf::Packet House::getPacket() {
     sf::Packet p;
-    p << 10 << X << Y << Health << State << Team << Type;
+    p << 10 << getX() << getY() << Health << State << Team << Type;
     return p;
 }
 void House::setPos(double x, double y)
 {
-	X = x;
-	Y = y;
+    sprite.setPosition(x,y);
 }
 double House::getX()
 {
-	return X;
+    return sprite.getPosition().x;
 }
 double House::getY()
 {
-	return Y;
+    return sprite.getPosition().y;
 }
 
 void House::heal(int hp) {
