@@ -36,8 +36,8 @@ class Sieni {
         sf::Sprite sprite;
         
     public:
-        Sieni(sf::Texture tex);
-        Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed);
+        Sieni(sf::Texture* tex);
+        Sieni(sf::Texture* tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed);
 	//void set_values (int,int,int,int,int,int,int,int);
 	
 	void setPos(double,double);
@@ -73,11 +73,13 @@ class Sieni {
         void setPacket(sf::Packet&);
         sf::Packet getPacket();
         
-        sf::Sprite& getSprite() {
-            return sprite;
-        }
+        sf::Sprite& getSprite();
 
 };
+
+sf::Sprite& Sieni::getSprite() {
+    return sprite;
+}
 
 void Sieni::setPacket(sf::Packet& p) {
     int trash;
@@ -91,12 +93,12 @@ sf::Packet Sieni::getPacket() {
     p << 10 << getX() << getY() << targetX << targetY << Health << State << Team << Type << dX << dY << speed;
     return p;
 }
-Sieni::Sieni(sf::Texture tex) {
-    sprite.setTexture(tex);
+Sieni::Sieni(sf::Texture* tex) {
+    sprite.setTexture(*tex);
 }
-Sieni::Sieni(sf::Texture tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed)
+Sieni::Sieni(sf::Texture* tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed)
 :speed(speed){
-    sprite.setTexture(tex);
+    sprite.setTexture(*tex);
     setPos(x, y);
     targetX = tx;
     targetY = ty;
@@ -115,7 +117,7 @@ double Sieni::getX() {
     return sprite.getPosition().x;
 }
 double Sieni::getY() {
-     return sprite.getPosition().y;
+    return sprite.getPosition().y;
 }
 void Sieni::setTarget(double tx, double ty) {
     targetX = tx;
@@ -179,7 +181,7 @@ bool Sieni::doesCollide(Sieni s) {
 
 void Sieni::pathFind()
 {
-    double kulma = atan2(targetY - getY(), targetX - getY());
+    double kulma = atan2(targetY - getY(), targetX - getX());
     dY = sin(kulma)*speed;
     dX = cos(kulma)*speed;
 }
@@ -205,20 +207,16 @@ void Sieni::areWeThereYet() {
 
 class House
 {
-	int sizeX, sizeY, Health, State, Team, Type;
+	int Health, State, Team, Type;
         double X, Y;
         sf::Sprite sprite;
     public:
-        House(sf::Texture tex);
-        House(sf::Texture tex, double x, double y, int hp, int state, int team, int type);
+        House(sf::Texture* tex);
+        House(sf::Texture* tex, double x, double y, int hp, int state, int team, int type);
         
 	void setPos(double,double);
 	double getX();
 	double getY();
-	
-	void setSize(int,int);
-	int getSizeX();
-	int getSizeY();
 	
 	void heal(int);
 	int getHealth();
@@ -235,18 +233,20 @@ class House
         void setPacket(sf::Packet&);
         sf::Packet getPacket();
         
-        sf::Sprite& getSprite() {
-            return sprite;
-        }
+        sf::Sprite& getSprite();
 };
 
-
-
-House::House(sf::Texture tex){
-    sprite.setTexture(tex);
+sf::Sprite& House::getSprite() {
+    return sprite;
 }
-House::House(sf::Texture tex, double x, double y, int hp, int state, int team, int type){
-    sprite.setTexture(tex);
+
+House::House(sf::Texture* tex){
+    sprite.setTexture(*tex);
+    sprite.setScale(4,4);
+}
+House::House(sf::Texture* tex, double x, double y, int hp, int state, int team, int type){
+    sprite.setTexture(*tex);
+    sprite.setScale(4,4);
     X = x;
     Y = y;
     Health = hp;
@@ -279,16 +279,6 @@ double House::getY()
 	return Y;
 }
 
-void House::setSize(int sX, int sY) {
-	sizeX = sX;
-	sizeY = sX;
-}
-int House::getSizeX() {
-	return sizeX;
-}
-int House::getSizeY() {
-	return sizeY;
-}
 void House::heal(int hp) {
 	Health += hp;
 }

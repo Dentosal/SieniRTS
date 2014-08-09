@@ -62,13 +62,12 @@ int main() {
     sf::Sprite uusiHexa(hexa);
     
     std::vector<Sieni> sienet;
-    sienet.push_back(Sieni(sieniTex, 300.0, 200.0, 300.0, 200.0, 0, 0, 0, 0, 0.0, 0.0, 8.0));
-    Sieni uusiSieni(sieniTex);
+    sienet.push_back(Sieni(&sieniTex, 300.0, 200.0, 300.0, 200.0, 0, 0, 0, 0, 0.0, 0.0, 8.0));
+
 
     
     std::vector<House> talot;
-    talot.push_back(House(houseTex, 0, 0, 0, 0, 0, 0));
-    House uusiTalo(houseTex);
+    talot.push_back(House(&houseTex, 0, 0, 0, 0, 0, 0));
 
 
     for (int i = 0; i+48 <= width; i+=48){
@@ -136,14 +135,25 @@ int main() {
                 double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
                 double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
                 
+                talot.push_back(House(&houseTex, taloX, taloY, 0, 0, 0, 0));
+                talot.back().setPos(taloX, taloY);
+            }            
+            /*
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Delete)) {
+
+                double mX = (sf::Mouse::getPosition(window).x);
+                double taloX = (mX - ((int)mX % 48));
+                double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
+                double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
+                
                 sf::Packet p;
-                    uusiTalo.setPacket(p << 10         // purkkaa tulossa
-                            << taloX << taloY // x ja y
+                    uusiTalo.setPacket(p << 10         
+                            << taloX << taloY       // x ja y
                             << 0 << 0 << 0 << 0     // hp, state, team, type
                             );
                     uusiTalo.setPos(taloX, taloY);
                     talot.push_back(uusiTalo);
-            }
+            }*/
             
             // klikkauksesta tehrään siäni
             /*
@@ -161,14 +171,7 @@ int main() {
                 double mX = (sf::Mouse::getPosition(window).x)-8;
                 double mY = (sf::Mouse::getPosition(window).y)-8;
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    sf::Packet p;
-                    uusiSieni.setPacket(p << 10         // purkkaa tulossa
-                            << mX << mY             // x ja y
-                            << mX << mY             // tx ja ty
-                            << 0 << 0 << 0 << 0     // hp, state, team, type
-                            << 0.0 << 0.0 << 8.0    // dx, dy, speed
-                            );
-                    sienet.push_back(uusiSieni);
+                    sienet.push_back(Sieni(&sieniTex, mX, mY, mX, mY, 0, 0, 0, 0, 0.0, 0.0, 8.0));
                 } 
                 else {
                     for (int i=0; i<sienet.size(); i++){
