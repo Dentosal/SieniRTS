@@ -3,5 +3,7 @@
 #
 # NOCDDL
 #
-# Debug configuration
+# Debug_client configuration
 # Release configuration
+# Debug_server configuration
+# Debug_proto configuration

@@ -1,5 +1,7 @@
 #include <iostream>
 #include "SFML/network.hpp"
+#include "SieniRTS/SFML/Graphics/Texture.hpp"
+#include "SieniRTS/SFML/Graphics/Sprite.hpp"
 #include <cmath>
 
 //               ________________
@@ -177,17 +179,30 @@ void Sieni::areWeThereYet() {
 }
 
 
+
+
+
+
+
+
+//=======================================================================
+
+
+
+
+
 class House
 {
-	int X, Y, targetX, targetY, sizeX, sizeY, Health, State, Team, Type;
-public:
-	void setPos(int,int);
-	int getX();
-	int getY();
-	
-	void setTarget(int,int);
-	int getTargetX();
-	int getTargetY();
+	int sizeX, sizeY, Health, State, Team, Type;
+        double X, Y;
+        sf::Sprite sprite;
+    public:
+        House(sf::Texture tex);
+        House(sf::Texture tex, double x, double y, int hp, int state, int team, int type);
+        
+	void setPos(double,double);
+	double getX();
+	double getY();
 	
 	void setSize(int,int);
 	int getSizeX();
@@ -204,34 +219,50 @@ public:
 	
 	void setType(int);
 	int getType();
-	};
+        
+        void setPacket(sf::Packet&);
+        sf::Packet getPacket();
+};
 
-void House::setPos(int x, int y)
+
+
+House::House(sf::Texture tex){
+    sprite.setTexture(tex);
+}
+House::House(sf::Texture tex, double x, double y, int hp, int state, int team, int type){
+    sprite.setTexture(tex);
+    X = x;
+    Y = y;
+    Health = hp;
+    State = state;
+    Team = team;
+    Type = type;
+}
+        
+void House::setPacket(sf::Packet& p) {
+    int trash;
+    p >> trash;
+    p >> X >> Y >> Health >> State >> Team >> Type;
+}
+sf::Packet House::getPacket() {
+    sf::Packet p;
+    p << 10 << X << Y << Health << State << Team << Type;
+    return p;
+}
+void House::setPos(double x, double y)
 {
 	X = x;
 	Y = y;
-	}
-int House::getX()
+}
+double House::getX()
 {
 	return X;
-	}
-int House::getY()
+}
+double House::getY()
 {
 	return Y;
-	}
-void House::setTarget(int tx, int ty)
-{
-	targetX = tx;
-	targetY = ty;
-	}
-int House::getTargetX()
-{
-	return targetX;
-	}
-int House::getTargetY()
-{
-	return Y;
-	}
+}
+
 void House::setSize(int sX, int sY) {
 	sizeX = sX;
 	sizeY = sX;

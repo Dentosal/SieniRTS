@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=SieniRTS
 
 # Active Configuration
-DEFAULTCONF=Debug
+DEFAULTCONF=Debug_client
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release 
+ALLCONFS=Debug_client Release Debug_server Debug_proto 
 
 
 # build
