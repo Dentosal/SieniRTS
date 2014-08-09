@@ -62,6 +62,8 @@ class Sieni {
 	
 	void setType(int);
 	int getType();
+
+    void stop();
         
 	double getdx();
 	double getdy();
@@ -79,6 +81,11 @@ class Sieni {
 
 sf::Sprite& Sieni::getSprite() {
     return sprite;
+}
+
+void Sieni::stop() {
+    dx=0;
+    dy=0;
 }
 
 void Sieni::setPacket(sf::Packet& p) {

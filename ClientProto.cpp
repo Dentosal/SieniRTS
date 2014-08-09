@@ -191,6 +191,13 @@ int main() {
         
         for(int i=0; i<sienet.size(); ++i) {
             sienet[i].areWeThereYet();
+            for(int j=0; j<sienet.size(); ++j) {
+                if (i!=j) {
+                    if (sienet[i].doesCollide(sienet[j])) {
+                        sienet[i].
+                    }
+                }
+            }
             
             
             sienet[i].setPos(
