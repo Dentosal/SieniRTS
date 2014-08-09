@@ -168,17 +168,12 @@ int main() {
                     ;  ;      
                 _\\;_\\//_
                 ==------===    */
-            if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
                 double mX = (sf::Mouse::getPosition(window).x)-8;
                 double mY = (sf::Mouse::getPosition(window).y)-8;
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    sienet.push_back(Sieni(&sieniTex, mX, mY, mX, mY, 0, 0, 0, 0, 0.0, 0.0, 8.0));
-                } 
-                else {
-                    for (int i=0; i<sienet.size(); i++){
-                        sienet[i].setTarget(mX,mY);
-                        sienet[i].pathFind();
-                    }
+                for (int i=0; i<sienet.size(); i++){
+                    sienet[i].setTarget(mX,mY);
+                    sienet[i].pathFind();
                 }
             }
 
