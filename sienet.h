@@ -187,6 +187,7 @@ bool Sieni::doesCollide(Sieni s) {
     return self.intersects(other);
 }
 void KnockBack(Sieni s) {
+    
 }
 
 void Sieni::pathFind()
