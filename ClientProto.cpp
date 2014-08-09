@@ -63,14 +63,6 @@ int main() {
     hexa.setTexture(hexaTexture);
     std::vector<sf::Sprite> hexat;            
     sf::Sprite uusiHexa(hexa);
-
-    
-    sf::Sprite sieniSprite;
-    //sieni.setScale(sf::Vector2f(2,2));
-    sieniSprite.setTexture(sieniTyyppiTexture[0]);
-    std::vector<sf::Sprite> sieniSpritet;
-    sf::Sprite uusiSieniSprite(sieniSprite);
-    sieniSpritet.push_back(uusiSieniSprite);
     
     std::vector<Sieni> sienet;
     sienet.push_back(Sieni(sieniTex, 300.0, 200.0, 300.0, 200.0, 0, 0, 0, 0, 0.0, 0.0, 8.0));
@@ -78,9 +70,10 @@ int main() {
 
     
     std::vector<House> talot;
-    talot.push_back(House(houseTex,300.0,200.0,0,0,0,0));
+    talot.push_back(House(houseTex, 0, 0, 0, 0, 0, 0));
     House uusiTalo(houseTex);
-    
+
+
     for (int i = 0; i+48 <= width; i+=48){
         for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
 
@@ -112,14 +105,18 @@ int main() {
             }            
             
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)) {
-                double mX = (sf::Mouse::getPosition(window).x)-(5*8);
-                double mY = (sf::Mouse::getPosition(window).y)-(5*8);
+
+                double mX = (sf::Mouse::getPosition(window).x);
+                double taloX = (mX - ((int)mX % 48));
+                double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
+                double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
+                
                 sf::Packet p;
                     uusiTalo.setPacket(p << 10         // purkkaa tulossa
-                            << mX << mY // x ja y
+                            << taloX << taloY // x ja y
                             << 0 << 0 << 0 << 0     // hp, state, team, type
                             );
-                    uusiTalo.setPos(mX, mY);
+                    uusiTalo.setPos(taloX, taloY);
                     talot.push_back(uusiTalo);
             }
             
@@ -136,8 +133,8 @@ int main() {
                 _\\;_\\//_
                 ==------===    */
             if (event.type == sf::Event::MouseButtonPressed) {
-                double mX = (sf::Mouse::getPosition(window).x)-(sieniSprite.getScale().x*8);
-                double mY = (sf::Mouse::getPosition(window).y)-(sieniSprite.getScale().y*8);
+                double mX = (sf::Mouse::getPosition(window).x)-8;
+                double mY = (sf::Mouse::getPosition(window).y)-8;
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Packet p;
                     uusiSieni.setPacket(p << 10         // purkkaa tulossa
@@ -147,7 +144,6 @@ int main() {
                             << 0.0 << 0.0 << 8.0    // dx, dy, speed
                             );
                     sienet.push_back(uusiSieni);
-                    sieniSpritet.push_back(uusiSieniSprite);
                 } 
                 else {
                     for (int i=0; i<sienet.size(); i++){
@@ -175,9 +171,8 @@ int main() {
             sienet[i].setPos(
                     sienet[i].getX() + sienet[i].getdx(),
                     sienet[i].getY() + sienet[i].getdy());
-            sieniSpritet[i].setPosition(sienet[i].getX(), sienet[i].getY());
             
-            window.draw(sieniSpritet[i]);
+            window.draw(sienet[i].getSprite());
         }
         
         window.display();
