@@ -6,10 +6,14 @@
 #include "SFML/Graphics/Texture.hpp"
 #include <vector>
 #include "sienet.h"
+#include <iostream>
+using namespace std;
 
 // main method
-int main2() {
-    
+#define TRUE 1
+#ifdef TRUE
+//ifdef SIENI_PROTO
+int main() {
     sf::ContextSettings contextSettings;  
     
     contextSettings.depthBits = 32;
@@ -19,11 +23,10 @@ int main2() {
     sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
     
-    std::vector<sf::Texture> sieniTyyppiTexture;
+    std::vector<sf::Texture> sieniTyyppiTexture(66);
     sieniTyyppiTexture[0].loadFromFile("resources/DefaultSieni.png");    
-    sieniTyyppiTexture[256].loadFromFile("resources/Rakennus1.png");    
-    sieniTyyppiTexture[257].loadFromFile("resources/Rakennus2.png");  
-    
+    sieniTyyppiTexture[64].loadFromFile("resources/Rakennus1.png");    
+    sieniTyyppiTexture[65].loadFromFile("resources/Rakennus2.png");  
     // tehrÃ¤Ã¤n siÃ¤ni
     /*
      *
@@ -55,11 +58,15 @@ int main2() {
     std::vector<sf::Sprite> hexat;            
     sf::Sprite uusiHexa(hexa);
     
-    sf::Sprite sieni;
+    sf::Sprite sieniSprite;
     //sieni.setScale(sf::Vector2f(2,2));
-    sieni.setTexture(sieniTyyppiTexture[0]);
-    std::vector<sf::Sprite> sienet;
-    sf::Sprite uusiSieni(sieni);
+    sieniSprite.setTexture(sieniTyyppiTexture[0]);
+    std::vector<sf::Sprite> sieniSpritet;
+    sf::Sprite uusiSieniSprite(sieniSprite);
+    
+    std::vector<Sieni> sienet;
+    sienet.push_back(Sieni(100,100,100,100,0,0,0,0,0,0,10));
+    Sieni uusiSieni;
     
     for (int i = 0; i+48 <= width; i+=48){
         for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
@@ -74,6 +81,7 @@ int main2() {
 //    }
     
     window.clear();
+    
     // main window loop
     while (window.isOpen()) {
 
@@ -88,28 +96,66 @@ int main2() {
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
-
-            // mouse should do stuff
+            
+            // klikkauksesta tehrään siäni
+            /*
+                     .-'~~~-.          
+                   .'o  oOOOo`.   
+                  :~~~-.oOo   o`.  
+                   `. \ ~-.  oOOo. 
+                     `.; / ~.  OO: 
+                     .'  ;-- `.o.'
+                    ,'  ; ~~--'~  
+                    ;  ;      
+                _\\;_\\//_
+                ==------===
+             */
+            
+            
             if (event.type == sf::Event::MouseButtonPressed) {
-                uusiSieni.setPosition(
-                        (sf::Mouse::getPosition(window).x)-(sieni.getScale().x)*8,
-                        (sf::Mouse::getPosition(window).y)-(sieni.getScale().y*8));
-                sienet.push_back(uusiSieni);
+                int mX = (sf::Mouse::getPosition(window).x);
+                int mY = (sf::Mouse::getPosition(window).y);
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Packet p;
+                    uusiSieni.setPacket(p << 10         // purkkaa tulossa
+                            << mX-(sieniSprite.getScale().x)*8 << mY-(sieniSprite.getScale().y*8) // x ja y
+                            << mX-(sieniSprite.getScale().x)*8 << mY-(sieniSprite.getScale().y*8) // tx ja ty
+                            << 0 << 0 << 0 << 0 // hp, state, team, type
+                            << 0 << 0 << 10     // dx, dy, speed
+                            );
+                    sienet.push_back(uusiSieni);
+                    sieniSpritet.push_back(uusiSieniSprite);
+                } 
+                else {
+                    for(int i=0; i<sienet.size(); ++i){
+                        sienet[i].setTarget(mX,mY);
+                        sienet[i].pathFind();
+                    }
+                }
             }
 
 
         }
         // draw everything on the sreen
         
+        
         for(int i=0; i<hexat.size(); ++i)
             window.draw(hexat[i]);
-        for(int i=0; i<sienet.size(); ++i)
-            window.draw(sienet[i]);
+        
+        for(int i=0; i<sienet.size(); ++i) {
+            sienet[i].setPos(
+                    sienet[i].getX()+sienet[i].getdx(),
+                    sienet[i].getY()+sienet[i].getdy());
+        
+            sieniSpritet[i].setPosition(sienet[i].getX(), sienet[i].getY()); // FIXME Kaatuu tähä
+            window.draw(sieniSpritet[i]);
+        }
+        
         window.display();
         sf::sleep(sf::milliseconds(200));
-        
     }
     // close the program when the loop breaks
     return EXIT_SUCCESS;
 }
+#endif
 
