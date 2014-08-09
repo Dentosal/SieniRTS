@@ -179,17 +179,6 @@ bool Sieni::doesCollide(Sieni s) {
     return false;
 }
 
-void Sieni::collide(std::vector<Sieni> s) {
-    for(int i=0;i<s.size();i++) {
-        for(int j=0;j<s.size();j++) {
-            if (i==j) {
-                break;
-            }   
-        }
-    }
-}
-
-
 void Sieni::pathFind()
 {
     double kulma = atan2(targetY - getY(), targetX - getX());
