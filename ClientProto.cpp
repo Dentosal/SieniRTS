@@ -63,9 +63,10 @@ int main() {
     sieniSprite.setTexture(sieniTyyppiTexture[0]);
     std::vector<sf::Sprite> sieniSpritet;
     sf::Sprite uusiSieniSprite(sieniSprite);
+    sieniSpritet.push_back(uusiSieniSprite);
     
     std::vector<Sieni> sienet;
-    sienet.push_back(Sieni(100,100,100,100,0,0,0,0,0,0,10));
+    sienet.push_back(Sieni(300,200,300,200,0,0,0,0,0,0,10));
     Sieni uusiSieni;
     
     for (int i = 0; i+48 <= width; i+=48){
@@ -113,13 +114,13 @@ int main() {
             
             
             if (event.type == sf::Event::MouseButtonPressed) {
-                int mX = (sf::Mouse::getPosition(window).x);
-                int mY = (sf::Mouse::getPosition(window).y);
+                int mX = (sf::Mouse::getPosition(window).x)-(sieniSprite.getScale().x)*8;
+                int mY = (sf::Mouse::getPosition(window).y)-(sieniSprite.getScale().y*8);
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Packet p;
                     uusiSieni.setPacket(p << 10         // purkkaa tulossa
-                            << mX-(sieniSprite.getScale().x)*8 << mY-(sieniSprite.getScale().y*8) // x ja y
-                            << mX-(sieniSprite.getScale().x)*8 << mY-(sieniSprite.getScale().y*8) // tx ja ty
+                            << mX << mY // x ja y
+                            << mX << mY // tx ja ty
                             << 0 << 0 << 0 << 0 // hp, state, team, type
                             << 0 << 0 << 10     // dx, dy, speed
                             );
@@ -138,7 +139,7 @@ int main() {
         }
         // draw everything on the sreen
         
-        
+        window.clear();
         for(int i=0; i<hexat.size(); ++i)
             window.draw(hexat[i]);
         
@@ -146,13 +147,13 @@ int main() {
             sienet[i].setPos(
                     sienet[i].getX()+sienet[i].getdx(),
                     sienet[i].getY()+sienet[i].getdy());
-        
-            sieniSpritet[i].setPosition(sienet[i].getX(), sienet[i].getY()); // FIXME Kaatuu tähä
+            sienet[i].areWeThereYet();
+            sieniSpritet[i].setPosition(sienet[i].getX(), sienet[i].getY());
             window.draw(sieniSpritet[i]);
         }
         
         window.display();
-        sf::sleep(sf::milliseconds(200));
+        sf::sleep(sf::milliseconds(50));
     }
     // close the program when the loop breaks
     return EXIT_SUCCESS;

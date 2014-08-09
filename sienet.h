@@ -30,7 +30,6 @@ using namespace std;
 
 class Sieni {
 	int X, Y, targetX, targetY, Health, State, Team, Type, dX, dY, speed;
-
         
     public:
         Sieni();
@@ -63,9 +62,11 @@ class Sieni {
 	int getdy();
         
         void pathFind();
+        
+        void areWeThereYet();
 
-    void setPacket(sf::Packet&);
-    sf::Packet getPacket();
+        void setPacket(sf::Packet&);
+        sf::Packet getPacket();
 };
 
 void Sieni::setPacket(sf::Packet& p) {
@@ -163,11 +164,17 @@ int Sieni::getdy()
 
 void Sieni::pathFind()
 {
-    double kulma = atan2(1.0*(targetX - X), 1.0*(targetY-Y));
+    double kulma = atan2(1.0*(targetY - Y), 1.0*(targetX - X));
     dY = sin(kulma)*speed;
     dX = cos(kulma)*speed;
-    
 }
+
+void Sieni::areWeThereYet() {
+    if (abs(X-targetX) < speed && abs(Y-targetY) < speed) {
+        dX = dY = 0;
+    }
+}
+
 
 class House
 {

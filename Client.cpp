@@ -9,7 +9,8 @@
 
 // main method
 #ifndef SIENI_SERVER
-int main() {
+#ifndef SIENI_PROTO
+int main2() {
     
     sf::TcpSocket* socket = connect();
     socket->setBlocking(false);
@@ -122,5 +123,6 @@ int main() {
     socket->disconnect();
     return EXIT_SUCCESS;
 }
+#endif
 #endif
 
