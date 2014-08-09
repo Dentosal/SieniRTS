@@ -194,7 +194,7 @@ void Sieni::pathFind()
 
 void Sieni::areWeThereYet() {
     if (abs(getX()-targetX) < speed/2 && abs(getY()-targetY) < speed/2) {
-        dX = dY = 0;
+        stop();
     }
 }
 
