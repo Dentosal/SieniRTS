@@ -45,6 +45,7 @@ class Sieni {
 	double getY();
 	
     bool doesCollide(Sieni);
+    void collide(std::vector<Sienet>);
 
 	void setTarget(double,double);
 	double getTargetX();
@@ -176,6 +177,12 @@ double Sieni::getdy()
 bool Sieni::doesCollide(Sieni s) {
     sf::Sprite ss = s.getSprite();
     return false;
+}
+
+void collide(std::vector<Sienet>) {
+    if (abs(getX()-targetX) < speed/2 && abs(getY()-targetY) < speed/2) {
+        dX = dY = 0;
+    }
 }
 
 
