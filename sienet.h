@@ -84,8 +84,8 @@ sf::Sprite& Sieni::getSprite() {
 }
 
 void Sieni::stop() {
-    dx=0;
-    dy=0;
+    dX=0;
+    dY=0;
 }
 
 void Sieni::setPacket(sf::Packet& p) {

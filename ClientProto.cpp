@@ -194,7 +194,7 @@ int main() {
             for(int j=0; j<sienet.size(); ++j) {
                 if (i!=j) {
                     if (sienet[i].doesCollide(sienet[j])) {
-                        sienet[i].
+                        sienet[i].stop();
                     }
                 }
             }
