@@ -196,6 +196,7 @@ int main() {
         
         for(int i=0; i<sienet.size(); ++i) {
             sienet[i].areWeThereYet();
+            sienet[i].collide();
             
             sienet[i].setPos(
                     sienet[i].getX() + sienet[i].getdx(),
