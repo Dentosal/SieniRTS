@@ -8,6 +8,7 @@
 #include "net.h"
 
 // main method
+#ifndef SIENI_SERVER
 int main() {
     
     sf::TcpSocket* socket = connect();
@@ -121,4 +122,5 @@ int main() {
     socket->disconnect();
     return EXIT_SUCCESS;
 }
+#endif
 

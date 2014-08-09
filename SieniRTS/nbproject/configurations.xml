@@ -8,11 +8,27 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <logicalFolder name="Images" displayName="Images" projectFiles="true">
+        <itemPath>../Images/DefaultSieni.png</itemPath>
+        <itemPath>../Images/Rakennus1.png</itemPath>
+        <itemPath>../Images/Rakennus2.png</itemPath>
+        <itemPath>../Images/RakennusTop1.png</itemPath>
+        <itemPath>../Images/RakennusTop2.png</itemPath>
+        <itemPath>../Images/SoldierSieni1.png</itemPath>
+        <itemPath>../Images/hexagon.png</itemPath>
+        <itemPath>../Images/hexagonTile1.png</itemPath>
+        <itemPath>../Images/hexagonTile2.png</itemPath>
+        <itemPath>../Images/hexagonTile3.png</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>../Client.cpp</itemPath>
+      <itemPath>../ClientProto.cpp</itemPath>
+      <itemPath>../Server.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>../sienet.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -26,9 +42,12 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>../Images</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="1">
+    <conf name="Debug_client" type="1">
       <toolsSet>
         <compilerSet>MinGW|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
@@ -53,10 +72,37 @@
             <linkerLibLibItem>sfml-system</linkerLibLibItem>
             <linkerLibLibItem>sfml-audio</linkerLibLibItem>
             <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>sfml-network</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="../Client.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../ClientProto.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../Images/DefaultSieni.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/SoldierSieni1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagon.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Server.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -79,7 +125,92 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="../Client.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../ClientProto.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../Images/DefaultSieni.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/SoldierSieni1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagon.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Server.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../sienet.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Debug_server" type="1">
+      <toolsSet>
+        <compilerSet>MinGW|MinGW</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+          <commandLine>-DSIENI_SERVER=1</commandLine>
+          <preprocessorList>
+            <Elem>SFML_STATIC</Elem>
+          </preprocessorList>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../SFML-2.1-windows-vc11-64bits/SFML-2.1/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>sfml-graphics</linkerLibLibItem>
+            <linkerLibLibItem>sfml-window</linkerLibLibItem>
+            <linkerLibLibItem>sfml-system</linkerLibLibItem>
+            <linkerLibLibItem>sfml-audio</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>sfml-network</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="../Client.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../ClientProto.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../Images/DefaultSieni.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/Rakennus2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/RakennusTop2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/SoldierSieni1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagon.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile1.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile2.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../Server.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

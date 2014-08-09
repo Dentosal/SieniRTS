@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SFML/network>
+#include "SFML/network.hpp"
 
 //               ________________
 //          ____/ (  (    )   )  \___
@@ -54,16 +54,16 @@ class Sieni {
 	void setType(int);
 	int getType();
 
-    void setPacket(sf::Packet);
+    void setPacket(sf::Packet&);
     sf::Packet getPacket();
 };
 
-void setPacket(sf::Packet) {
+void Sieni::setPacket(sf::Packet& p) {
     int trash;
     p >> trash;
     p >> X >> Y >> targetX >> targetY >> Health >> State >> Team >> Team;
 }
-sf::Packet getPacket() {
+sf::Packet Sieni::getPacket() {
     sf::Packet p;
     p << 10 << X << Y << targetX << targetY << Health << State << Team << Team;
     return p;
@@ -181,7 +181,7 @@ int House::getTargetY()
 {
 	return Y;
 	}
-void House::setPos(int sX, int sY) {
+void House::setSize(int sX, int sY) {
 	sizeX = sX;
 	sizeY = sX;
 }
