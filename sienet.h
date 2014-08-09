@@ -45,7 +45,6 @@ class Sieni {
 	double getY();
 	
     bool doesCollide(Sieni);
-    void collide(std::vector<Sieni>);
 
 	void setTarget(double,double);
 	double getTargetX();
