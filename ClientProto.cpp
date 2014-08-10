@@ -68,11 +68,11 @@ int main() {
 
     
     std::vector<House> talot;
-//    talot.push_back(House(&houseTex, 0, 0, 0, 0, 0, 0));
+    talot.push_back(House(&houseTex, 0, 0, 0, 0, 0, 0));
 
 
-    for (int i = 0; i+48 <= width; i+=48){
-        for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
+    for (int i = -48; i <= width; i+=48){
+        for (int j = 2*(i%96)/3-64; j <= height; j+=64){ // shifts every other line 32 px down
             
             if ( (i == 48*13 && 32*7  <= j && j <= 32*11) || (i == 48*14 && 32*12 <= j && j <= 32*14) ) continue;
             
@@ -137,7 +137,6 @@ int main() {
                 double taloX = (mX - ((int)mX % 48));
                 double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
                 double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
-                
                 talot.push_back(House(&houseTex, taloX, taloY, 0, 0, 0, 0));
                 talot.back().setPos(taloX, taloY);
             }            
