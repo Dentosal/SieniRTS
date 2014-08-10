@@ -10,7 +10,7 @@
 // main method
 #ifndef SIENI_SERVER
 #ifndef SIENI_PROTO
-int main2() {
+int main() {
     
     sf::TcpSocket* socket = connect();
     socket->setBlocking(false);
