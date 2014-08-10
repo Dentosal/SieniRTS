@@ -6,6 +6,10 @@
 			position:absolute;
 			top:-100000;
 			}
+			p
+			{
+			text-align:justify;
+			}
 		</style>
 		<script>
 			
@@ -32,7 +36,7 @@
 					map[y]=[];
 					for(var x=0;x<koko*maara;x++)
 						{
-						map[y][x]=0;
+						map[y][x]=1;
 						}
 					}
 				
@@ -45,7 +49,7 @@
 				c.fillStyle="gray"
 				c.fillRect(0,0,w,h)
 				c.fillStyle="black";
-				c.fillRect(0+camX,0+camY,koko*koko,koko*koko);
+				c.fillRect(0+camX,0+camY,koko*koko*0.79,koko*koko);
 				
 				for(var y=0;y<koko*maara;y++)
 					{
@@ -189,19 +193,22 @@
 				{
 				var koodi = map.toString();
 				var koodiL = koodi.length;
-				document.getElementById("test").innerHTML="[" + koko*maara + "]";
-				yL = map.length;
+				var teksti = "";
+				teksti+="[" + (koko+1*maara) + "]";
+				yL = map.length-1;
 				xL = map[yL].length;
 				
 				for(var y=0;y<yL;y++)
 					{
-					document.getElementById("test").innerHTML+=koodi[y];
-					for(var x=0;x<xL;x++)
+					//document.getElementById("test").innerHTML+=koodi[y];
+					teksti+="|<"
+					for(var x=0;x<xL*2;x++)
 						{
-						//document.getElementById("test").innerHTML+=koodi[x+y*koko*maara];
+						teksti+=koodi[x+y*koko*maara];
 						}
-					
+					teksti+=">|"
 					}
+				document.getElementById("code").value=teksti;
 				}
 		</script>
 	</head>
