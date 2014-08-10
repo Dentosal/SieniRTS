@@ -4,6 +4,7 @@
 #include <IOStream>
 #include <String>
 #include <sstream>
+#include <stdio.h>
 #define PORT 8118
 
 
@@ -23,7 +24,7 @@ void my_handler(int s){
 	exit(1);
 }
 
-
+#ifdef SIENI_SERVER
 int main(int argc, char** argv) {
 	sf::IpAddress SelfIP = sf::IpAddress::getPublicAddress();	// get own ip
 	std::string IP = SelfIP.toString();
@@ -106,3 +107,6 @@ int main(int argc, char** argv) {
 	}
 	return EXIT_SUCCESS;
 }
+#endif
+
+

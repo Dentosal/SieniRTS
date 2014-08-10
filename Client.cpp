@@ -8,6 +8,8 @@
 #include "net.h"
 
 // main method
+#ifndef SIENI_SERVER
+#ifndef SIENI_PROTO
 int main() {
     
     sf::TcpSocket* socket = connect();
@@ -71,7 +73,6 @@ int main() {
         }
     }
     
-    // main window loop
     while (window.isOpen()) {
         window.clear();
 
@@ -88,7 +89,7 @@ int main() {
             }
 
             // mouse should do stuff
-            if (event.type == sf::Event::MouseButtonPressed) { // is this the right event?
+            if (event.type == sf::Event::MouseButtonPressed) { // THIS IS RIGHT EVENT
                 sf::Packet p;
                 int x = sf::Mouse::getPosition(window).x-sieni.getScale().x*8;
                 int y = sf::Mouse::getPosition(window).y-sieni.getScale().y*8;
@@ -121,4 +122,6 @@ int main() {
     socket->disconnect();
     return EXIT_SUCCESS;
 }
+#endif
+#endif
 

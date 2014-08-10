@@ -1,5 +1,8 @@
 #include <iostream>
-#include <SFML/network>
+#include "SFML/network.hpp"
+#include "SieniRTS/SFML/Graphics/Texture.hpp"
+#include "SieniRTS/SFML/Graphics/Sprite.hpp"
+#include <cmath>
 
 //               ________________
 //          ____/ (  (    )   )  \___
@@ -28,18 +31,24 @@
 using namespace std;
 
 class Sieni {
-	int X, Y, targetX, targetY, Health, State, Team, Type;
-  public:
-	void set_values (int,int,int,int,int,int,int,int);
-	int area () {return X;}
+	int Health, State, Team, Type;
+        double targetX, targetY, dX, dY, speed;
+        sf::Sprite sprite;
+        
+    public:
+        Sieni(sf::Texture* tex);
+        Sieni(sf::Texture* tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed);
+	//void set_values (int,int,int,int,int,int,int,int);
 	
-	void setPos(int,int);
-	int getX();
-	int getY();
+	void setPos(double,double);
+	double getX();
+	double getY();
 	
-	void setTarget(int,int);
-	int getTargetX();
-	int getTargetY();
+    bool doesCollide(Sieni);
+
+	void setTarget(double,double);
+	double getTargetX();
+	double getTargetY();
 	
 	void setHealth(int);
 	void heal(int);
@@ -54,93 +63,184 @@ class Sieni {
 	void setType(int);
 	int getType();
 
-    void setPacket(sf::Packet);
-    sf::Packet getPacket();
+    void stop();
+    void KnockBack(Sieni);
+        
+	double getdx();
+	double getdy();
+        
+        void pathFind();
+        
+        void areWeThereYet();
+
+        void setPacket(sf::Packet&);
+        sf::Packet getPacket();
+        
+        sf::Sprite& getSprite();
+        
+        
+        bool railossa();
 };
 
-void setPacket(sf::Packet) {
-    int trash;
-    p >> trash;
-    p >> X >> Y >> targetX >> targetY >> Health >> State >> Team >> Team;
-}
-sf::Packet getPacket() {
-    sf::Packet p;
-    p << 10 << X << Y << targetX << targetY << Health << State << Team << Team;
-    return p;
+sf::Sprite& Sieni::getSprite() {
+    return sprite;
 }
 
-void Sieni::setPos(int x, int y) {
-	X = x;
-	Y = y;
+void Sieni::stop() {
+    dX=0;
+    dY=0;
 }
-int Sieni::getX() {
-	return X;
+
+void Sieni::setPacket(sf::Packet& p) {
+    int trash;
+    p >> trash;
+    int X, Y;
+    p >> X >> Y >> targetX >> targetY >> Health >> State >> Team >> Type >> dX >> dY >> speed;
+    setPos(X, Y);
 }
-int Sieni::getY() {
-	return Y;
+sf::Packet Sieni::getPacket() {
+    sf::Packet p;
+    p << 10 << getX() << getY() << targetX << targetY << Health << State << Team << Type << dX << dY << speed;
+    return p;
 }
-void Sieni::setTarget(int tx, int ty) {
-	targetX = tx;
-	targetY = ty;
+Sieni::Sieni(sf::Texture* tex) {
+    sprite.setTexture(*tex);
 }
-int Sieni::getTargetX() {
-	return targetX;
+Sieni::Sieni(sf::Texture* tex, double x, double y, double tx, double ty, int hp, int state, int team, int type, double dx, double dy, double speed)
+:speed(speed){
+    sprite.setTexture(*tex);
+    setPos(x, y);
+    targetX = tx;
+    targetY = ty;
+    Health = hp;
+    State = state;
+    Team = team;
+    Type = type;
+    dX = dx;
+    dY = dy;
 }
-int Sieni::getTargetY()
+
+void Sieni::setPos(double x, double y) {
+    sprite.setPosition(x, y);
+}
+double Sieni::getX() {
+    return sprite.getPosition().x;
+}
+double Sieni::getY() {
+    return sprite.getPosition().y;
+}
+void Sieni::setTarget(double tx, double ty) {
+    targetX = tx;
+    targetY = ty;
+}
+double Sieni::getTargetX() {
+    return targetX;
+}
+double Sieni::getTargetY()
 {
-	return Y;
-	}
+    return targetY;
+}
 void Sieni::setHealth(int hp) {
-	Health = hp;
+    Health = hp;
 }
 void Sieni::heal(int hp)
 {
-	Health += hp;
-	}
+    Health += hp;
+}
 int Sieni::getHealth()
 {
-	return Health;
-	}
+    return Health;
+}
 void Sieni::setState(int state)
 {
-	State = state;
-	}
+    State = state;
+}
 int Sieni::getState()
 {
-	return State;
-	}
+    return State;
+}
 void Sieni::setTeam(int team)
 {
-	Team = team;
-	}
+    Team = team;
+}
 int Sieni::getTeam()
 {
-	return Team;
-	}
+    return Team;
+}
 void Sieni::setType(int type)
 {
-	Type = type;
-	}
+    Type = type;
+}
 int Sieni::getType()
 {
-	return Type;
-	}
+    return Type;
+}
+double Sieni::getdx()
+{
+    return dX;
+}
+double Sieni::getdy()
+{
+    return dY;
+}
+bool Sieni::doesCollide(Sieni s) {
+    sf::FloatRect other = s.getSprite().getGlobalBounds();
+    sf::FloatRect self = sprite.getGlobalBounds();
+    return self.intersects(other);
+}
+void Sieni::KnockBack(Sieni s) {
+    float ox = s.getX();
+    float oy = s.getY();
+    float tx = getX();
+    float ty = getY();
+    float dx = ox-tx;
+    float dy = oy-ty;
+    setPos(tx-dx*3, ty-dy*3);
+}
+
+void Sieni::pathFind()
+{
+    double kulma = atan2(targetY - getY(), targetX - getX());
+    dY = sin(kulma)*speed;
+    dX = cos(kulma)*speed;
+}
+
+void Sieni::areWeThereYet() {
+    if (abs(getX()-targetX) < speed/2 && abs(getY()-targetY) < speed/2) {
+        stop();
+    }
+}
+
+
+
+bool Sieni::railossa() {
+    return  ((getX()-27*24)*(getX()-27*24) + (getY()-15*16)*(getY()-15*16) < (1024)) || ((getX()-27*24)*(getX()-27*24) + (getY()-19*16)*(getY()-19*16) < (1024)) ||
+            ((getX()-27*24)*(getX()-27*24) + (getY()-23*16)*(getY()-23*16) < (1024)) || ((getX()-29*24)*(getX()-29*24) + (getY()-25*16)*(getY()-25*16) < (1024)) ||
+            ((getX()-29*24)*(getX()-29*24) + (getY()-29*16)*(getY()-29*16) < (1024));
+}
+
+
+
+
+
+
+//===============================================================================
+
+
+
+
 
 class House
 {
-	int X, Y, targetX, targetY, sizeX, sizeY, Health, State, Team, Type;
-public:
-	void setPos(int,int);
-	int getX();
-	int getY();
-	
-	void setTarget(int,int);
-	int getTargetX();
-	int getTargetY();
-	
-	void setSize(int,int);
-	int getSizeX();
-	int getSizeY();
+	int Health, State, Team, Type;
+        sf::Sprite sprite;
+    public:
+        House(sf::Texture* tex);
+        House(sf::Texture* tex, double x, double y, int hp, int state, int team, int type);
+        
+	void setPos(double,double);
+	double getX();
+	double getY();
 	
 	void heal(int);
 	int getHealth();
@@ -153,44 +253,56 @@ public:
 	
 	void setType(int);
 	int getType();
-	};
+        
+        void setPacket(sf::Packet&);
+        sf::Packet getPacket();
+        
+        sf::Sprite& getSprite();
+};
 
-void House::setPos(int x, int y)
-{
-	X = x;
-	Y = y;
-	}
-int House::getX()
-{
-	return X;
-	}
-int House::getY()
-{
-	return Y;
-	}
-void House::setTarget(int tx, int ty)
-{
-	targetX = tx;
-	targetY = ty;
-	}
-int House::getTargetX()
-{
-	return targetX;
-	}
-int House::getTargetY()
-{
-	return Y;
-	}
-void House::setPos(int sX, int sY) {
-	sizeX = sX;
-	sizeY = sX;
+sf::Sprite& House::getSprite() {
+    return sprite;
 }
-int House::getSizeX() {
-	return sizeX;
+
+House::House(sf::Texture* tex){
+    sprite.setTexture(*tex);
+    sprite.setScale(4,4);
 }
-int House::getSizeY() {
-	return sizeY;
+House::House(sf::Texture* tex, double x, double y, int hp, int state, int team, int type){
+    sprite.setTexture(*tex);
+    sprite.setScale(4,4);
+    setPos(x,y);
+    Health = hp;
+    State = state;
+    Team = team;
+    Type = type;
 }
+        
+void House::setPacket(sf::Packet& p) {
+    int trash;
+    p >> trash;
+    int X, Y;
+    p >> X >> Y >> Health >> State >> Team >> Type;
+    setPos(X,Y);
+}
+sf::Packet House::getPacket() {
+    sf::Packet p;
+    p << 10 << getX() << getY() << Health << State << Team << Type;
+    return p;
+}
+void House::setPos(double x, double y)
+{
+    sprite.setPosition(x,y);
+}
+double House::getX()
+{
+    return sprite.getPosition().x;
+}
+double House::getY()
+{
+    return sprite.getPosition().y;
+}
+
 void House::heal(int hp) {
 	Health += hp;
 }

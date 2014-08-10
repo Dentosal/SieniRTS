@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=MinGW-Windows
 CND_DLIB_EXT=dll
-CND_CONF=Release
+CND_CONF=Debug_proto
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -44,8 +44,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-DSIENI_PROTO=1
+CXXFLAGS=-DSIENI_PROTO=1
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -54,7 +54,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L../SFML-2.1-windows-vc11-64bits/SFML-2.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lopengl32 -lsfml-network
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sienirts.exe: ${OBJECTFILES}
 ${OBJECTDIR}/_ext/1472/Client.o: ../Client.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1472
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Client.o ../Client.cpp
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Client.o ../Client.cpp
 
 ${OBJECTDIR}/_ext/1472/ClientProto.o: ../ClientProto.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1472
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/ClientProto.o ../ClientProto.cpp
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/ClientProto.o ../ClientProto.cpp
 
 ${OBJECTDIR}/_ext/1472/Server.o: ../Server.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1472
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Server.o ../Server.cpp
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Server.o ../Server.cpp
 
 # Subprojects
 .build-subprojects:

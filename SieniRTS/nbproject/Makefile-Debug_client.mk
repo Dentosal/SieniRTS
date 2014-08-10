@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=MinGW-Windows
 CND_DLIB_EXT=dll
-CND_CONF=Debug
+CND_CONF=Debug_client
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/_ext/1472/Client.o \
+	${OBJECTDIR}/_ext/1472/ClientProto.o \
+	${OBJECTDIR}/_ext/1472/Server.o
 
 
 # C Compiler Flags
@@ -52,7 +54,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../SFML-2.1-windows-vc11-64bits/SFML-2.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lopengl32
+LDLIBSOPTIONS=-L../SFML-2.1-windows-vc11-64bits/SFML-2.1/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lopengl32 -lsfml-network
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -62,10 +64,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sienirts.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/sienirts ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/main.o: main.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/_ext/1472/Client.o: ../Client.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1472
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Client.o ../Client.cpp
+
+${OBJECTDIR}/_ext/1472/ClientProto.o: ../ClientProto.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1472
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/ClientProto.o ../ClientProto.cpp
+
+${OBJECTDIR}/_ext/1472/Server.o: ../Server.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1472
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -DSFML_STATIC -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/1472/Server.o ../Server.cpp
 
 # Subprojects
 .build-subprojects:

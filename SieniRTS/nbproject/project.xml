@@ -6,17 +6,27 @@
             <name>SieniRTS</name>
             <c-extensions/>
             <cpp-extensions>cpp</cpp-extensions>
-            <header-extensions/>
+            <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList/>
+            <sourceRootList>
+                <sourceRootElem>../Images</sourceRootElem>
+            </sourceRootList>
             <confList>
                 <confElem>
-                    <name>Debug</name>
+                    <name>Debug_client</name>
                     <type>1</type>
                 </confElem>
                 <confElem>
                     <name>Release</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Debug_server</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Debug_proto</name>
                     <type>1</type>
                 </confElem>
             </confList>
