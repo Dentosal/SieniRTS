@@ -20,6 +20,7 @@ int main() {
     // window name
     int height = 720;
     int width = 960;
+    int kierros = 1;
     sf::RenderWindow window(sf::VideoMode(width, height), "SieniRTS", sf::Style::Default, contextSettings);
     window.setActive();
     
@@ -67,7 +68,7 @@ int main() {
 
     
     std::vector<House> talot;
-    talot.push_back(House(&houseTex, 0, 0, 0, 0, 0, 0));
+//    talot.push_back(House(&houseTex, 0, 0, 0, 0, 0, 0));
 
 
     for (int i = 0; i+48 <= width; i+=48){
@@ -158,7 +159,7 @@ int main() {
                 }
             }
             
-            // klikkauksesta tehrÃ¤Ã¤n siÃ¤ni
+            // klikkauksesta ei tehrä enää siäniä
             /*
                      .-'~~~-.          
                    .'o  oOOOo`.   
@@ -173,12 +174,25 @@ int main() {
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
                 double mX = (sf::Mouse::getPosition(window).x)-8;
                 double mY = (sf::Mouse::getPosition(window).y)-8;
-                for (int i=0; i<sienet.size(); i++){
+                for (int i=0; i<sienet.size(); ++i){
                     sienet[i].setTarget(mX,mY);
                     sienet[i].pathFind();
                 }
+            }            
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                double mX = (sf::Mouse::getPosition(window).x);
+                double taloX = (mX - ((int)mX % 48));
+                double mY = (sf::Mouse::getPosition(window).y)-32*((int(taloX)%96)/48);
+                double taloY = (mY - ((int)mY % 64))+((int(taloX)%96)/48)*32;
+                if (sienet.size() >= 10){
+                    talot.push_back(House(&houseTex, taloX, taloY, 0, 0, 0, 0));
+                    talot.back().setPos(taloX, taloY);
+                    for (int i=0; i<10; ++i){
+                        sienet.erase(sienet.begin()+i);
+                    }
+                }
             }
-
+            
 
         }
         // draw everything on the screen
@@ -189,6 +203,16 @@ int main() {
         
         for(int i=0; i<talot.size(); ++i) {
             window.draw(talot[i].getSprite());
+            if (kierros%100 == 0){
+                sienet.push_back(Sieni(&sieniTex,
+                        talot[i].getX() + ((rand()&255)/255.0)*48,
+                        talot[i].getY() + ((rand()&255)/255.0)*64,
+                        talot[i].getX() + ((rand()&95)) - 24,
+                        talot[i].getY() + ((rand()&127)) - 32,
+                        0, 0, 0, 0, 0.0, 0.0, 8.0));
+                sienet.back().pathFind();
+            }
+            
         }        
         
         for(int i=0; i<sienet.size(); ++i) {
@@ -217,6 +241,7 @@ int main() {
         
         window.display();
         sf::sleep(sf::milliseconds(50));
+        ++kierros;
     }
     // close the program when the loop breaks
     return EXIT_SUCCESS;
