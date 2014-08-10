@@ -73,7 +73,6 @@ int main() {
         }
     }
     
-    // main window loop
     while (window.isOpen()) {
         window.clear();
 
