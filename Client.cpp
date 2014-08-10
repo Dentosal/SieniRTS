@@ -90,7 +90,7 @@ int main() {
             }
 
             // mouse should do stuff
-            if (event.type == sf::Event::MouseButtonPressed) { // is this the right event?
+            if (event.type == sf::Event::MouseButtonPressed) { // THIS IS RIGHT EVENT
                 sf::Packet p;
                 int x = sf::Mouse::getPosition(window).x-sieni.getScale().x*8;
                 int y = sf::Mouse::getPosition(window).y-sieni.getScale().y*8;

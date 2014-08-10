@@ -195,7 +195,8 @@ void Sieni::KnockBack(Sieni s) {
     float ty = getY();
     float dx = ox-tx;
     float dy = oy-ty;
-    setPos(tx-dx*3, ty-dy*3);
+    targetX=tx-dx*3;
+    targetY=ty-dy*3;
 }
 
 void Sieni::pathFind()
