@@ -186,8 +186,14 @@ bool Sieni::doesCollide(Sieni s) {
     sf::FloatRect self = sprite.getGlobalBounds();
     return self.intersects(other);
 }
-void KnockBack(Sieni s) {
-    
+void Sieni::KnockBack(Sieni s) {
+    float ox = s.getX();
+    float oy = s.getY();
+    float tx = getX();
+    float ty = getY();
+    float dx = ox-tx;
+    float dy = oy-ty;
+    setPos(tx-dx*3, ty-dy*3);
 }
 
 void Sieni::pathFind()
