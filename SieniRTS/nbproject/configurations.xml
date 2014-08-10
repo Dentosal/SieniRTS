@@ -28,6 +28,7 @@
       <itemPath>../ClientProto.cpp</itemPath>
       <itemPath>../Server.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>../net.h</itemPath>
       <itemPath>../sienet.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -102,6 +103,8 @@
       </item>
       <item path="../Server.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="../net.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -150,6 +153,8 @@
       <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../Server.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../net.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -209,6 +214,8 @@
       <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../Server.cpp" ex="false" tool="1" flavor2="9">
+      </item>
+      <item path="../net.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -270,6 +277,8 @@
       <item path="../Images/hexagonTile3.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../Server.cpp" ex="false" tool="1" flavor2="9">
+      </item>
+      <item path="../net.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="../sienet.h" ex="false" tool="3" flavor2="0">
       </item>

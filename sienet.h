@@ -77,7 +77,9 @@ class Sieni {
         sf::Packet getPacket();
         
         sf::Sprite& getSprite();
-
+        
+        
+        bool railossa();
 };
 
 sf::Sprite& Sieni::getSprite() {
@@ -204,6 +206,12 @@ void Sieni::areWeThereYet() {
 }
 
 
+
+bool Sieni::railossa() {
+    return  ((getX()-27*24)*(getX()-27*24) + (getY()-15*16)*(getY()-15*16) < (1024)) || ((getX()-27*24)*(getX()-27*24) + (getY()-19*16)*(getY()-19*16) < (1024)) ||
+            ((getX()-27*24)*(getX()-27*24) + (getY()-23*16)*(getY()-23*16) < (1024)) || ((getX()-29*24)*(getX()-29*24) + (getY()-25*16)*(getY()-25*16) < (1024)) ||
+            ((getX()-29*24)*(getX()-29*24) + (getY()-29*16)*(getY()-29*16) < (1024));
+}
 
 
 

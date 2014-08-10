@@ -30,7 +30,7 @@ int main() {
     sieniTex.loadFromFile("resources/DefaultSieni.png");
     houseTex.loadFromFile("resources/Rakennus1.png");
     
-    // tehrään siäni
+    // tehrÃ¤Ã¤n siÃ¤ni
     /*
      *
               ___..._
@@ -72,7 +72,9 @@ int main() {
 
     for (int i = 0; i+48 <= width; i+=48){
         for (int j = 2*(i%96)/3; j+64 <= height; j+=64){ // shifts every other line 32 px down
-
+            
+            if ( (i == 48*13 && 32*7  <= j && j <= 32*11) || (i == 48*14 && 32*12 <= j && j <= 32*14) ) continue;
+            
             uusiHexa.setPosition(i+1,j);
             hexat.push_back(uusiHexa);
         }
@@ -100,7 +102,7 @@ int main() {
                 window.close();
             }            
             /*
-              Välilyännistä tehrään talo
+              VÃ¤lilyÃ¤nnistÃ¤ tehrÃ¤Ã¤n talo
                        .
                 ('
                 '|
@@ -156,7 +158,7 @@ int main() {
                 }
             }
             
-            // klikkauksesta tehrään siäni
+            // klikkauksesta tehrÃ¤Ã¤n siÃ¤ni
             /*
                      .-'~~~-.          
                    .'o  oOOOo`.   
@@ -191,6 +193,7 @@ int main() {
         
         for(int i=0; i<sienet.size(); ++i) {
             sienet[i].areWeThereYet();
+
             for(int j=0; j<sienet.size(); ++j) {
                 if (i!=j) {
                     if (sienet[i].doesCollide(sienet[j])) {
@@ -200,10 +203,14 @@ int main() {
                 }
             }
             
-            
             sienet[i].setPos(
                     sienet[i].getX() + sienet[i].getdx(),
                     sienet[i].getY() + sienet[i].getdy());
+            
+            if (sienet[i].railossa()) {
+                sienet.erase(sienet.begin()+i);
+                continue;
+            }
             
             window.draw(sienet[i].getSprite());
         }
